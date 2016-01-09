@@ -1,0 +1,78 @@
+body {
+    background-color:#eeeeee;
+    margin: 0px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.mainWindow {
+    background-color: white;
+    height:75vh;
+    width:75vh;
+    position:absolute;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    top:50%;
+    left:50%;
+    border-style: solid;
+    border-width: 4vh;
+    border-color: #b0b0b0;
+    border-radius: 2vh;
+}
+
+img#logo{
+    height:25%;
+    position:absolute;
+    -ms-transform: translate(-50%,0);
+    -webkit-transform: translate(-50%,0);
+    transform: translate(-50%,0);
+    left:50%;
+    margin-top: 6vh;
+    margin-bottom: 4vh;
+}
+
+.button {
+    height: 12.5%;
+    width: 50%;
+    position:absolute;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    left:50%;
+    text-align: center;
+    vertical-align: middle;
+    border-style:solid;
+    border-width:0px;
+    border-radius:1vh;
+    cursor:pointer;
+}
+span.buttonText {
+    width:100%;
+    font-size:1.75em;
+    position:absolute;
+    top:50%;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+div#countdown {
+    position:absolute;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    top:50%;
+    left:50%;
+    font-size:8em;
+}
+
+.titleText {
+    white-space: nowrap;
+    font-size: 3em;
+    margin-top:5%;
+    position:absolute;
+    -ms-transform: translate(-50%,0%);
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
+    left:50%;
+}
