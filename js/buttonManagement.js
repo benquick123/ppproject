@@ -1,6 +1,6 @@
 function onButtonClick() {
     //console.log(mainWindow.children());
-    call = null;
+    var call = null;
     if (this.id == "buttonIgraj") {
         call = loadGameplay;
         mode = 0;
@@ -27,10 +27,11 @@ function onButtonClick() {
         memoryMode = 2;
     }
 
-    children = mainWindow.children();
+    var children = mainWindow.children();
     d3.select("img#logo").transition().style("opacity", 0).duration(600).each("end", call);
     d3.select("div#titleText").transition().style("opacity", 0).duration(600).each("end", call);
     for (var i = 1; i < children.length; i++) {
+        var duration;
         if (children[i].id == this.id)
             duration = 200;
         else
@@ -48,7 +49,7 @@ function onButtonMouseOver() {
 }
 
 function createButton(text, color, position) {
-    button = '<div class="button" id="button' + text.replace(/ /g, "") + '" style="background-color:' + color + '; top:' + position + '%; opacity:0;">';
+    var button = '<div class="button" id="button' + text.replace(/ /g, "") + '" style="background-color:' + color + '; top:' + position + '%; opacity:0;">';
     button += '<span class="buttonText">' + text + '</span>';
     button += '</div>';
     return button;

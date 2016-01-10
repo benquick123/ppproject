@@ -5,14 +5,15 @@ function loadGameplay() {
     console.log("mode: " + mode + ", memoryMode: " + memoryMode);
 
     mainWindow.empty();
-    countdown(3)
+    countdown(3);
+    game_spatial(3);
 }
 
 function countdown(seconds) {
-    cdown = '<div id="countdown">' + seconds + '</div>';
+    var cdown = '<div id="countdown">' + seconds + '</div>';
     mainWindow.append(cdown);
 
-    countdownText = $("#countdown");
+    var countdownText = $("#countdown");
     d3.select("#" + countdownText[0].id).transition().style("opacity", 0).duration(950);
     var intervalID = setInterval(function() {
         seconds--;
