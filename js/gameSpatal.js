@@ -42,6 +42,7 @@ function gameSpatial(n,time, blinks ){              // Main function
 
 }
 function showSequence(seq, t, n){
+    console.log("now2");
     var k = 0;
     var intervalID = setInterval(function() {
         n--;
