@@ -1,27 +1,45 @@
 var padPressedColor = "#ADC0ED";
 var padColor = "#2B51A8";
 var padShadedColor = "#0F368F";
+var padIteration = [
+    [3, 800, 3],
+    [3, 500, 3],
+    [3, 650, 4],
+    [3, 650, 5],
+    [4, 800, 5],
+    [4, 650, 5],
+    [4, 700, 6],
+    [5, 580, 4],
+    [5, 640, 5],
+    [5, 780, 6]
+];
+
 var padPressed = new Set();
 var padSequence;
 var padSequenceColor = [];
 var padScore;
 var padGameTime;
-var padBlinks;
 
-function padInit(blinks){
+var padSettingBlinks;
+var padSettingTime;
+var padSettingN;
+
+function padInit(iter){
     padPressed = new Set();
     padSequence = [];
     padSequenceColor = [];
     padScore = [];
     padGameTime = 0;
-    padBlinks = blinks;
+    padSettingBlinks = padIteration[iter][2];
+    padSettingTime = padIteration[iter][1];
+    padSettingN = padIteration[iter][0];
 }
 
-function gameSpatial(n,time, blinks ){              // Main function
-    padInit(blinks);
-    for (var i = 0; i < n; i++){
-        for (var j = 0; j < n; j++){
-            var pad = createPad(padColor, i, j, n);
+function gameSpatial(iter){              // Main function
+    padInit(iter);
+    for (var i = 0; i < padSettingN; i++){
+        for (var j = 0; j < padSettingN; j++){
+            var pad = createPad(i, j);
             mainWindow.append(pad);
             d3.select("#pad"+i+""+j)
                 .transition()
@@ -30,19 +48,19 @@ function gameSpatial(n,time, blinks ){              // Main function
         }
     }
 
-    var seq = getSequence(n,blinks);
-    showSequence(seq, time, blinks);
+    var seq = getSequence();
+    showSequence(seq);
 
     setTimeout(function() {
         d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).on("click", padHit).on("mouseover", padOver).on("mouseout", padOut);});
-
+        backgroundNotify(colorStart);
         padSequence = seq;
         padGameTime = new Date().getTime();
-    },time*blinks+350);
+    },padSettingTime*padSettingBlinks+500);
 
 }
-function showSequence(seq, t, n){
-    console.log("now2");
+function showSequence(seq){
+    var n = padSettingBlinks;
     var k = 0;
     var intervalID = setInterval(function() {
         n--;
@@ -50,16 +68,16 @@ function showSequence(seq, t, n){
 
         d3.select(seq[k]).transition().duration(50).style("opacity", 0.2).transition().duration(350).style("opacity", 1);
         k++;
-    }, t);
+    }, padSettingTime);
 }
 
-function getSequence(n, blinks){
+function getSequence(){
     var selectedPads = [];
     var i, j;
-    for (var k=0; k<blinks; k++){
+    for (var k=0; k < padSettingBlinks; k++){
         do{
-            i = Math.floor(Math.random() * n);
-            j = Math.floor(Math.random() * n);
+            i = Math.floor(Math.random() * padSettingN);
+            j = Math.floor(Math.random() * padSettingN);
         }while (selectedPads.indexOf("#pad"+i+""+j) > -1);
         selectedPads[k] = "#pad"+i+""+j;
         padSequenceColor[k] = padColor;
@@ -75,15 +93,15 @@ function padHit(){
         padPressed.add(tmp[0]);
 
         if (padSequence.length < 1) {
-            d3.select("#mainWindow").transition().duration(30).style("background-color", "#4FCE5F").transition().duration(300).style("background-color", "white");
+            backgroundNotify(colorCorrect);
             padScore = [padPressed.size, 1, (new Date().getTime()-padGameTime)/1000];
-            gameRunning.resolve();
+
         }
     }
     else {
-        d3.select("#mainWindow").transition().duration(30).style("background-color","#FF6A62").transition().duration(300).style("background-color","white");
-        padScore = [padPressed.size, padPressed.size/padBlinks, (new Date().getTime()-padGameTime)/1000];
-        gameRunning.resolve();
+        backgroundNotify(colorIncorrect);
+        padScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
+
     }
 }
 
@@ -99,16 +117,16 @@ function padOver() {
         d3.select("#" + this.id).transition().style("background-color", padShadedColor).duration(200);
 }
 
-function createPad(color, i, j, n){
+function createPad(i, j){
     var scalePads= 0.8;                 // Scale of pads
     var margin = 2;                     // Space between pads in %
-    var factor = 100/n;
+    var factor = 100/padSettingN;
     var padSize = factor * scalePads;
-    var frame = (100-(n*padSize + (n-1)*margin))/2;
+    var frame = (100-(padSettingN*padSize + (padSettingN-1)*margin))/2;
     return '<div class="pad" id="pad'+ i +''+ j +'" style="' +
         'top:' + (frame+(margin*i)+(padSize*i)) +'%; ' +
         'left:' + (frame+(margin*j)+(padSize*j)) +'%; ' +
         'width:' + padSize +'%; ' +
         'height:' + padSize +'%; ' +
-        'background-color:' + color + '"></div>';
+        'background-color:' + padColor + '"></div>';
 }
