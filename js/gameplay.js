@@ -1,22 +1,35 @@
-var mode = 0;
-var memoryMode = 0;
+var gameMode = 0;
+var gameMemoryMode = 0;
 var colorCorrect = "#4FCE5F";
 var colorStart = "#393939";
 var colorIncorrect = "#FF6A62";
-function loadGameplay() {
-    console.log("mode: " + mode + ", memoryMode: " + memoryMode);
+var gameIterations = [0,0,0];
+var gameScore;
+var it = 0;
+function loadGameplay() {                                               // Init global vars for gameplay.
+    console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
     mainWindow.empty();
     countdown(3);
 }
-function handleGameplay(){
-    gameSpatial(5);
-    /*
-     return $.when(gameRunning).done(function(){
-     console.log(padScore);
-     mainWindow.empty();
-     }).promise();
-     */
 
+function waitGameEnd() {                                                // Check every x ms if game ended
+    if(gameScore === null)
+        setTimeout(waitGameEnd, 50);
+    else {
+        mainWindow.empty();
+        console.log(gameScore);                                         // TODO something with score.
+
+        it++;
+        handleGameplay();                                               // Continue with games
+    }
+}
+
+function handleGameplay(){
+
+    gameScore = null;                                                   // Set gameStore to null before game begins!
+    gameSpatial(it);
+
+    waitGameEnd();
 }
 
 function countdown(seconds) {

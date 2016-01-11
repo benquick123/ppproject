@@ -3,7 +3,7 @@ function onButtonClick() {
     var call = null;
     if (this.id == "buttonIgraj") {
         call = loadGameplay;
-        mode = 0;
+        gameMode = 0;
     }
     else if (this.id == "buttonVadi")
         call = loadPractice;
@@ -13,18 +13,18 @@ function onButtonClick() {
         call = loadMainMenu;
     else if (this.id == "buttonPomnenjegolihpodatkov") {
         call = loadGameplay;
-        mode = 1;
-        memoryMode = 0;
+        gameMode = 1;
+        gameMemoryMode = 0;
     }
     else if (this.id == "buttonDelovnispomin") {
         call = loadGameplay;
-        mode = 1;
-        memoryMode = 1;
+        gameMode = 1;
+        gameMemoryMode = 1;
     }
     else if (this.id == "buttonProstorskispomin") {
         call = loadGameplay;
-        mode = 1;
-        memoryMode = 2;
+        gameMode = 1;
+        gameMemoryMode = 2;
     }
 
     var children = mainWindow.children();

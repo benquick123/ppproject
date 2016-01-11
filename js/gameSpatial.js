@@ -17,7 +17,6 @@ var padIteration = [
 var padPressed = new Set();
 var padSequence;
 var padSequenceColor = [];
-var padScore;
 var padGameTime;
 
 var padSettingBlinks;
@@ -28,7 +27,6 @@ function padInit(iter){
     padPressed = new Set();
     padSequence = [];
     padSequenceColor = [];
-    padScore = [];
     padGameTime = 0;
     padSettingBlinks = padIteration[iter][2];
     padSettingTime = padIteration[iter][1];
@@ -37,6 +35,7 @@ function padInit(iter){
 
 function gameSpatial(iter){              // Main function
     padInit(iter);
+
     for (var i = 0; i < padSettingN; i++){
         for (var j = 0; j < padSettingN; j++){
             var pad = createPad(i, j);
@@ -48,15 +47,14 @@ function gameSpatial(iter){              // Main function
         }
     }
 
-    var seq = getSequence();
-    showSequence(seq);
+    padSequence = getSequence();
+    setTimeout(showSequence, 300);
 
     setTimeout(function() {
         d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).on("click", padHit).on("mouseover", padOver).on("mouseout", padOut);});
         backgroundNotify(colorStart);
-        padSequence = seq;
         padGameTime = new Date().getTime();
-    },padSettingTime*padSettingBlinks+500);
+    },padSettingTime*padSettingBlinks+600);
 
 }
 function showSequence(seq){
@@ -66,7 +64,7 @@ function showSequence(seq){
         n--;
         if (n == 0) clearInterval(intervalID);
 
-        d3.select(seq[k]).transition().duration(50).style("opacity", 0.2).transition().duration(350).style("opacity", 1);
+        d3.select(padSequence[k]).transition().duration(50).style("opacity", 0.2).transition().duration(350).style("opacity", 1);
         k++;
     }, padSettingTime);
 }
@@ -94,13 +92,13 @@ function padHit(){
 
         if (padSequence.length < 1) {
             backgroundNotify(colorCorrect);
-            padScore = [padPressed.size, 1, (new Date().getTime()-padGameTime)/1000];
+            gameScore = [padPressed.size, 1, (new Date().getTime()-padGameTime)/1000];
 
         }
     }
     else {
         backgroundNotify(colorIncorrect);
-        padScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
+        gameScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
 
     }
 }
