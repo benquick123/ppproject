@@ -58,41 +58,39 @@ function rawGetTime(){
     rawCheckOut();
 }
 function continueWithRawCheck(){
-    var run = true;
-    if (rawNumExamplesCounter == rawSettingNumExamples) { rawWrapUp(); run = false;}
-    if (run){
-        rawCurrentExample = Array.from(rawExamples)[Math.floor(Math.random() * rawExamples.size)];
 
-        mainWindow.empty();
-        mainWindow.append('<div class="button" id="buttonTrue" style="' +                   // Button True
-            'left:' + 27.5 + '%;' +
-            'width:' + 40 + '%;' +
-            'top:' + 86 + '%;' +
-            'opacity:' + 0 + ';' +
-            'background-color:' + colorCorrect + '' +
-            '"></div>');
-        mainWindow.append('<div class="button" id="buttonFalse" style="' +                  // Button False
-            'left:' + 72.5 + '%;' +
-            'width:' + 40 + '%;' +
-            'top:' + 86 + '%;' +
-            'opacity:' + 0 + ';' +
-            'background-color:' + colorIncorrect + '' +
-            '"></div>');
-        mainWindow.append('<div class="data" id="dataExample" style="' +                    // Example
-            'height:' + 30 + '%;' +
-            'width:' + 40 + '%;' +
-            'top:' + 40 + '%;' +
-            'left:' + 50 + '%;' +
-            'border:' + 3 + 'vh ' + "solid" + ' ' + "#242525" + ';' +
-            'border-radius:' + 5 + 'px;' +
-            'opacity:' + 0 + '' +
-            '">' +
-            '<span class="buttonText" style="' +
-            'font-size:' + 15 + 'vh' +
-            '">' + rawCurrentExample + '</span>' +
-            '</div>');
-        d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
-    }
+    rawCurrentExample = Array.from(rawExamples)[Math.floor(Math.random() * rawExamples.size)];
+
+    mainWindow.empty();
+    mainWindow.append('<div class="button" id="buttonTrue" style="' +                   // Button True
+        'left:' + 27.5 + '%;' +
+        'width:' + 40 + '%;' +
+        'top:' + 86 + '%;' +
+        'opacity:' + 0 + ';' +
+        'background-color:' + colorCorrect + '' +
+        '"></div>');
+    mainWindow.append('<div class="button" id="buttonFalse" style="' +                  // Button False
+        'left:' + 72.5 + '%;' +
+        'width:' + 40 + '%;' +
+        'top:' + 86 + '%;' +
+        'opacity:' + 0 + ';' +
+        'background-color:' + colorIncorrect + '' +
+        '"></div>');
+    mainWindow.append('<div class="data" id="dataExample" style="' +                    // Example
+        'height:' + 30 + '%;' +
+        'width:' + 40 + '%;' +
+        'top:' + 40 + '%;' +
+        'left:' + 50 + '%;' +
+        'border:' + 3 + 'vh ' + "solid" + ' ' + "#242525" + ';' +
+        'border-radius:' + 5 + 'px;' +
+        'opacity:' + 0 + '' +
+        '">' +
+        '<span class="buttonText" style="' +
+        'font-size:' + 15 + 'vh' +
+        '">' + rawCurrentExample + '</span>' +
+        '</div>');
+    d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
+
 }
 function rawSetListeners(){
     if (this.id == "buttonFalse") d3.select("#buttonFalse").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawHit).transition().duration(200).style("opacity",1);
@@ -120,7 +118,9 @@ function rawHit(){
     if ((this.id == "buttonFalse" && !rawData.has(rawCurrentExample)) || (this.id == "buttonTrue" && rawData.has(rawCurrentExample))){
         rawNumExamplesCounter++;
         rawExamples.delete(rawCurrentExample);
-        rawCheckOut();
+        if (rawNumExamplesCounter == rawSettingNumExamples) {
+            rawWrapUp(); }
+        else rawCheckOut();
     }
     else rawWrapUp();
 }
@@ -130,6 +130,7 @@ function rawCheckOut(){
 function rawWrapUp(){
     if ( rawNumExamplesCounter == rawSettingNumExamples ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
+    console.log("wrap");
     setTimeout(function(){
 
         gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  rawGameTime ];
