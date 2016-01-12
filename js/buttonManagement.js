@@ -19,16 +19,19 @@ function onButtonClick() {
         call = loadGameplay;
         gameMode = 1;
         gameMemoryMode = 0;
+        gameIterations[gameMemoryMode] = selectedLevel-1;
     }
     else if (this.id == "buttonDelovnispomin") {
         call = loadGameplay;
         gameMode = 1;
         gameMemoryMode = 1;
+        gameIterations[gameMemoryMode] = selectedLevel-1;
     }
     else if (this.id == "buttonProstorskispomin") {
         call = loadGameplay;
         gameMode = 1;
         gameMemoryMode = 2;
+        gameIterations[gameMemoryMode] = selectedLevel-1;
     }
     else if (this.id == "buttonBackToMenu") {
         mainWindow.empty();
@@ -54,11 +57,11 @@ function onButtonClick() {
 }
 
 function onButtonMouseOut() {
-    d3.select("#" + this.id).transition().style("background-color", "#FB892A").duration(200);
+    d3.select("#" + this.id).transition().style("background-color", colorButton).duration(200);
 }
 
 function onButtonMouseOver() {
-    d3.select("#" + this.id).transition().style("background-color", "#D56100").duration(200);
+    d3.select("#" + this.id).transition().style("background-color", colorButtonSelected).duration(200);
 }
 
 function createButton(text, color, position) {

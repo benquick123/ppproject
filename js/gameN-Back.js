@@ -4,12 +4,14 @@ var shapeLevel = 0;
 var shapeIteration = [
     [1, 3],
     [2, 3],
+    [2, 4],
     [3, 3],
-    [4, 3],
-    [5, 3],
-    [6, 3],
-    [7, 3],
-    [8, 3]
+    [3, 4],
+    [3, 5],
+    [4, 4],
+    [4, 5],
+    [5, 6],
+    [6, 6]
 ];
 
 var shapeGameTime;
@@ -18,9 +20,11 @@ var shapeQueue;
 var shapeNumber;
 
 function gameNBack(n) {
+    if (n >= shapeIteration.length)
+        n = shapeIteration.length - 1;
     loadShapes();
     shapeNumber = 0;
-    shapeLevel = n+1;
+    shapeLevel = n;
     shapeGameTime = 0;
     shapeTotalHit = 0;
     shapeQueue = [];
@@ -44,7 +48,7 @@ function gameNBack(n) {
         shapeQueue[i][0].firstChild.id = "imgShape" + shapeN;
     }
 
-    var title = '<div id="titleText" class="titleText" style="opacity:0;">◀ ' + shapeLevel + ' ◀</div>'
+    var title = '<div id="titleText" class="titleText" style="opacity:0;">◀ ' + shapeIteration[shapeLevel][0] + ' ◀</div>'
     topFrame.append(title);
     d3.select("#titleText").transition().style("opacity", 1).duration(1000);
 
@@ -53,6 +57,17 @@ function gameNBack(n) {
 }
 
 function playShapes(topFrame, end) {
+    if (shapeNumber == shapeIteration[shapeLevel][0]) {
+        backgroundNotify(colorStart);
+        d3.select("#nBackBottomFrame").selectAll(".imageShape").transition().style("opacity", 1).duration(400).each("end", function() {
+            d3.selectAll(".imageShapeDiv")
+                .on("click", onShapeClick)
+                .on("mouseover", onShapeOver)
+                .on("mouseout", onShapeOut)
+                .style("cursor", "pointer");
+        });
+    }
+
     if (shapeNumber < shapeQueue.length && !end) {
         topFrame.append(shapeQueue[shapeNumber]);
         var newShape = d3.select("#bigShape" + shapeNumber);
@@ -73,7 +88,7 @@ function playShapes(topFrame, end) {
         }, 400);
     }
 
-    if (shapeNumber < shapeLevel) {
+    if (shapeNumber < shapeIteration[shapeLevel][0]) {
         setTimeout(function() {
             playShapes(topFrame);
         }, 2000);
@@ -87,7 +102,7 @@ function playShapes(topFrame, end) {
 
 function wrapUp() {
     var totalHit = shapeTotalHit;
-    var totalPercent = totalHit / (shapeQueue.length - shapeLevel);
+    var totalPercent = totalHit / (shapeQueue.length - shapeIteration[shapeLevel][0]);
     gameTime = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
     console.log(gameTime);
 
@@ -105,12 +120,7 @@ function fillBottomFrame(bottomFrame) {
     for (var i = 0; i < 8; i++) {
         bottomFrame.append(shapes[i]);
         var shape = $("#shape")
-        shape.css("width", size + "%").css("height", size + "%").css("left", 3.75 + i*size + "%");
+        shape.css("width", size + "%").css("height", size + "%").css("left", 3.75 + i*size + "%").css("cursor", "default");
         shape[0].id = "shape" + i;
-        shape.on("click", onShapeClick);
-        shape.on("mouseover", onShapeOver);
-        shape.on("mouseout", onShapeOut);
     }
-
-    d3.selectAll(".imageShape").transition().style("opacity", 1).duration(200);
 }

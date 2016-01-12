@@ -1,9 +1,11 @@
+var selectedLevel;
+
 function loadMainMenu() {
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
-    var buttonNames = ["Igraj", "Vadi", "Lestvica rezultatov", "Navodila"];
-    var buttonColor = "#FB892A";
+    var buttonNames = ["Igraj", "Vadi", "Lestvica rezultatov"];
+    var buttonColor = colorButton;
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 45 + i * 15;
         var button = createButton(buttonNames[i], buttonColor, position);
@@ -38,7 +40,7 @@ function loadHighscore() {
     mainWindow.append(title);
     d3.select(".titleText").transition().style("opacity", 1).duration(1000);
 
-    var button = createButton("Nazaj", "#FB892A", 90);
+    var button = createButton("Nazaj", colorButton, 90);
     mainWindow.append(button);
     d3.select("#buttonNazaj")
         .transition()
@@ -50,11 +52,12 @@ function loadHighscore() {
 }
 
 function loadPractice() {
+    selectedLevel = 1;
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
     var buttonNames = ["Pomnenje golih podatkov", "Delovni spomin", "Prostorski spomin", "Nazaj"];
-    var buttonColor = "#FB892A";
+    var buttonColor = colorButton;
 
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 45 + i * 15;
@@ -69,7 +72,37 @@ function loadPractice() {
             });
     }
 
+    var levelChooser = '<div id="levelChooser" style="opacity:0;"></div>';
+    mainWindow.append(levelChooser);
+    var arrowUp = '<img id="arrowUp" class="arrow" src="images/arrow.svg"/>';
+    var arrowDown = '<img id="arrowDown" class="arrow rotated" src="images/arrow.svg"/>';
+    var arrowUpSelected = '<img id="arrowUpSelected" class="arrowSelected" src="images/arrowSelected.svg" style="opacity: 0;" />';
+    var arrowDownSelected = '<img id="arrowDownSelected" class="arrowSelected rotated" src="images/arrowSelected.svg" style="opacity: 0;" />';
+    var levelNum = '<span id="levelNum">' + selectedLevel + '</span>';
+    $("#levelChooser").append(arrowUp).append(arrowDown).append(arrowUpSelected).append(arrowDownSelected).append(levelNum);
+    //d3.selectAll(".arrow")
+    d3.selectAll(".arrowSelected").on("click", onArrowClick).on("mouseout", onArrowOut).on("mouseover", onArrowOver);;
+
     d3.select("img#logo").transition().style("opacity", 1).duration(1000);
+    d3.select("div#levelChooser").transition().style("opacity", 1).duration(1000);
+}
+
+function onArrowClick() {
+    var diff = 0;
+    if (this.id == "arrowUpSelected" && selectedLevel < 10)
+        diff = 1;
+    else if (this.id == "arrowDownSelected" && selectedLevel > 1)
+        diff = -1;
+    selectedLevel += diff;
+    $("#levelNum")[0].innerHTML = selectedLevel;
+}
+
+function onArrowOver() {
+    d3.select("#" + this.id).transition().style("opacity", 1).duration(200);
+}
+
+function onArrowOut() {
+    d3.select("#" + this.id).transition().style("opacity", 0).duration(200);
 }
 
 function loadAnalysis(){                // TODO analysis

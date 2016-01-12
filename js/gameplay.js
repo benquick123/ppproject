@@ -1,8 +1,5 @@
 var gameMode = 0;
 var gameMemoryMode = 0;
-var colorCorrect = "#4FCE5F";
-var colorStart = "#393939";
-var colorIncorrect = "#FF6A62";
 var gameIterations = [0,0,0];
 var gameScore;
 var gameFunctions;
@@ -12,10 +9,9 @@ var gameTimer, gameSeconds, totalGameTime;
 var gameSumScore;
 
 function loadGameplay() {                                               // Init global vars for gameplay.
-    //console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
     gameSumScore = 0;
     gameSeconds = 0;
-    gameFunctions = [gameSpatial, gameNBack, gameRaw];
+    gameFunctions = [gameNBack, gameSpatial, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
 
     mainWindow.empty();
@@ -75,7 +71,7 @@ function loadGameInfo() {
 
     var text = (gameMode == 1) ? "Končaj" : "Glavni meni";
 
-    var button = '<div class="button" id="buttonBackToMenu" style="background-color:#FB892A; height:80%; width:30%; top:50%; left:85%;">';
+    var button = '<div class="button" id="buttonBackToMenu" style="background-color:' + colorButton + '; height:70%; width:25%; top:50%; left:87.5%;">';
     button += '<span class="buttonText">' + text + '</span>';
     button += '</div>';
     $(".gameInfo").append(button);

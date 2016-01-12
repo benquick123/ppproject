@@ -143,8 +143,8 @@ function onButtonRawOut() {
 }
 
 function onButtonRawOver() {
-    if (this.id == "buttonFalse")   d3.select("#" + this.id).transition().style("background-color", "#E23E35").duration(200);
-    else                            d3.select("#" + this.id).transition().style("background-color", "#2BBA3D").duration(200);
+    if (this.id == "buttonFalse")   d3.select("#" + this.id).transition().style("background-color", colorIncorrectSelected).duration(200);
+    else                            d3.select("#" + this.id).transition().style("background-color", colorCorrectSelected).duration(200);
 }
 function createData(i, j){
     var data = Math.floor(Math.random() * 10 * rawSettingDigit);

@@ -12,11 +12,11 @@ function loadShapes() {
 }
 
 function onShapeClick () {
-    if (shapeNumber > shapeLevel && shapeNumber <= shapeQueue.length) {
+    if (shapeNumber > shapeIteration[shapeLevel][0] && shapeNumber <= shapeQueue.length) {
         if (shapeGameTime == 0)
             shapeGameTime = new Date().getTime();
 
-        cmpItem = shapeQueue[shapeNumber - shapeLevel - 1];
+        cmpItem = shapeQueue[shapeNumber - shapeIteration[shapeLevel][0] - 1];
 
         var cmpNumber = cmpItem[0].firstChild.id.replace("imgShape", "");
         var currNumber = this.id.replace("shape", "");
@@ -37,13 +37,13 @@ function onShapeOver () {
     var shapeName = this.firstChild.getAttribute("src").replace("images/shapes/", "").replace(".svg", "");
     var color = colorStart;
     if (shapeName == "circle2" || shapeName == "triangle2")
-        color = "#FFA962";
+        color = colorRedLight;
     else if (shapeName == "circle1" || shapeName == "rectangle1")
-        color = "#5271B7";
+        color = colorBlueLight;
     else if (shapeName == "triangle1" || shapeName == "star2")
-        color = "#FFCB62";
+        color = colorYellowLight;
     else if (shapeName == "star1" || shapeName == "rectangle2")
-        color = "#41A8A8";
+        color = colorGreenLight;
 
     d3.select("#" + this.id).style("background-color", "white").transition().style("background-color", color).duration(200);
 }

@@ -166,3 +166,53 @@ div#countdown {
     transform: translate(0%,-50%);
     font-size:6vh;
 }
+
+#levelChooser {
+    height:30%;
+    width:15%;
+    position:absolute;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    left:87.5%;
+    top: 60%;
+}
+
+#levelNum {
+    color: #242525;
+    font-size:5vh;
+    position:absolute;
+    top:50%;
+    left: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.arrow {
+    width:60%;
+    position:absolute;
+    left:50%;
+    -ms-transform: translate(-50%,0%);
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
+    cursor: pointer;
+}
+
+.arrowSelected {
+    width:60%;
+    position:absolute;
+    left:50%;
+    -ms-transform: translate(-50%,0%);
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
+    cursor: pointer;
+}
+
+.rotated {
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    bottom:0%;
+    left:20%;
+}
