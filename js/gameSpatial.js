@@ -101,8 +101,10 @@ function padHit(){
 function padWrapUp(){
     if ( padPressed.size == padSettingBlinks ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
-    gameScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
-    mainWindow.empty();
+    setTimeout(function() {
+        gameScore = [padPressed.size, padPressed.size / padSettingBlinks, (new Date().getTime() - padGameTime) / 1000];
+        mainWindow.empty();
+    }, 200);
 }
 function padOut() {
     if (!padPressed.has("#" + this.id))
