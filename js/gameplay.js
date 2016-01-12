@@ -5,11 +5,20 @@ var colorStart = "#393939";
 var colorIncorrect = "#FF6A62";
 var gameIterations = [0,0,0];
 var gameScore;
+var gameTimer, gameSeconds;
 var it = 0;
 function loadGameplay() {                                               // Init global vars for gameplay.
     console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
     mainWindow.empty();
-    //gameRaw(0);
+    gameSeconds = 0;
+    gameTimer = setInterval(
+        function() {
+            if (gameSeconds > 60)
+                gameDisplayScore();
+            gameSeconds++;
+            console.log(gameSeconds);
+        }, 1000
+    );
     countdown(1);
 }
 
@@ -30,7 +39,6 @@ function handleGameplay(){
     gameScore = null;                                                   // Set gameStore to null before game begins!
     //gameSpatial(it);
     //gameNBack(it);
-    console.log("sad");
     gameRaw(it);
     waitGameEnd();
 }
@@ -52,6 +60,10 @@ function countdown(seconds) {
         d3.select("#" + countdownText[0].id).style("opacity", 1);
         d3.select("#" + countdownText[0].id).transition().style("opacity", 0).duration(950);
     }, 1000);
+}
+
+function gameDisplayScore(){
+    console.log("asd");
 }
 
 function backgroundNotify(color){

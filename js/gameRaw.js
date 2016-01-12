@@ -43,6 +43,7 @@ function gameRaw(iter){              // Main function
         }
     }
     getExamples();
+    console.log(rawData);
     mainWindow.append('<div class="button" id="buttonContinue" style="' +
         'top:'+86+'%;' +
         'opacity:'+0+';' +
@@ -51,10 +52,11 @@ function gameRaw(iter){              // Main function
     d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
     rawGameTime = new Date().getTime();
 }
-
+function rawGetTime(){ rawGameTime = (new Date().getTime()-rawGameTime)/1000; rawCheckOut()}
 function continueWithRawCheck(){
-    if (rawNumExamplesCounter == rawSettingNumExamples) { rawWrapUp(); rawNumExamplesCounter = 0;}
-    else {
+    var run = true;
+    if (rawNumExamplesCounter == rawSettingNumExamples) { rawWrapUp(); run = false;}
+    if (run){
         rawCurrentExample = Array.from(rawExamples)[Math.floor(Math.random() * rawExamples.size)];
 
         mainWindow.empty();
@@ -91,7 +93,7 @@ function continueWithRawCheck(){
 function rawSetListeners(){
     if (this.id == "buttonFalse") d3.select("#buttonFalse").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawHit).transition().duration(200).style("opacity",1);
     else if (this.id == "buttonTrue") d3.select("#buttonTrue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawHit).transition().duration(200).style("opacity",1);
-    else if(this.id == "buttonContinue") d3.select("#buttonContinue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawCheckOut).transition().duration(200).style("opacity",1);
+    else if(this.id == "buttonContinue") d3.select("#buttonContinue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawGetTime).transition().duration(200).style("opacity",1);
 }
 function getExamples(){
     var numPositives = Math.floor(Math.random() * Math.min(rawSettingNumExamples,rawData.size));        // Selecte number of elements already in rawData as positives
@@ -111,6 +113,7 @@ function getExamples(){
     }
 }
 function rawHit(){
+    console.log(this.id, rawData);
     if ((this.id == "buttonFalse" && !rawData.has(rawCurrentExample)) || (this.id == "buttonTrue" && rawData.has(rawCurrentExample))){
         rawNumExamplesCounter++;
         rawExamples.delete(rawCurrentExample);
@@ -125,8 +128,8 @@ function rawWrapUp(){
     if ( rawNumExamplesCounter == rawSettingNumExamples ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
     setTimeout(function(){
-        var time = (new Date().getTime()-rawGameTime)/1000;
-        gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  time ];
+
+        gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  rawGameTime ];
         console.log(gameScore);
         mainWindow.empty();
     },200)
@@ -142,7 +145,7 @@ function onButtonRawOver() {
     else                            d3.select("#" + this.id).transition().style("background-color", "#2BBA3D").duration(200);
 }
 function createData(i, j){
-    var data = Math.floor(Math.random() * Math.pow(10, rawSettingDigit));
+    var data = Math.floor(Math.random() * 10 * rawSettingDigit);
     rawData.add(data);
     var factorX = 100/(rawSettingN+1);
     var factorY = 80/(rawSettingN+1);

@@ -17,7 +17,7 @@ var shapeTotalHit;
 
 function gameNBack(n) {
     loadShapes();
-    shapeLevel = n;
+    shapeLevel = n+1;
     shapeGameTime = 0;
     shapeTotalHit = 0;
 
@@ -31,7 +31,7 @@ function gameNBack(n) {
 
     fillBottomFrame(bottomFrame);
 
-    var total = shapeIteration[n-1][0] + shapeIteration[n-1][1];
+    var total = shapeIteration[n][0] + shapeIteration[n][1];
     for (var i = 0; i < total; i++) {
         var shapeN = Math.floor(Math.random() * 8);
         shapeQueue[i] = $.parseHTML(shapes[shapeN]);
@@ -49,6 +49,7 @@ function gameNBack(n) {
 }
 
 function playShapes(topFrame) {
+    console.log("here");
     if (shapeNumber < shapeQueue.length) {
         topFrame.append(shapeQueue[shapeNumber]);
         var newShape = d3.select("#bigShape" + shapeNumber);
@@ -82,8 +83,8 @@ function playShapes(topFrame) {
 function wrapUp() {
     var totalHit = shapeTotalHit;
     var totalPercent = totalHit / (shapeQueue.length - shapeLevel);
-    gameTime = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
-    console.log(gameTime);
+    gameScore = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
+
 
     d3.select("#titleText").transition().style("opacity", 0).duration(200);
     d3.select("#nBackBottomFrame").transition().style("opacity", 0).duration(200).each("end", function() {
