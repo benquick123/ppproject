@@ -6,16 +6,17 @@ var colorIncorrect = "#FF6A62";
 var gameIterations = [0,0,0];
 var gameScore;
 var gameFunctions;
-
 var gameTimer, gameSeconds;
+var gameSumScore;
 
 function loadGameplay() {                                               // Init global vars for gameplay.
     console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
+    gameSumScore = 0;
+    gameSeconds = 0;
     gameFunctions = [gameSpatial, gameNBack, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
 
     mainWindow.empty();
-    gameSeconds = 0;
     gameTimer = setInterval(
         function() {
             if (gameSeconds > 60)
@@ -87,7 +88,9 @@ function countdown(seconds) {
 }
 
 function gameDisplayScore(){
-    console.log("asd");
+
+    mainWindow.empty();
+    console.log("End");
 }
 
 function backgroundNotify(color){
