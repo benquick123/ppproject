@@ -8,7 +8,7 @@ function loadShapes() {
         shapes[i] += '</div>';
     }
 
-    shapes = shuffleShapes(shapes);
+    shuffleShapes(shapes);
 }
 
 function onShapeClick () {
@@ -24,10 +24,10 @@ function onShapeClick () {
         if (cmpNumber == currNumber) {
             backgroundNotify(colorCorrect);
             shapeTotalHit++;
-            playShapes($("#nBackTopFrame"));
+            playShapes($("#nBackTopFrame"), false);
         }
         else {
-            wrapUp();
+            playShapes($("#nBackTopFrame"), true);
             backgroundNotify(colorIncorrect);
         }
     }

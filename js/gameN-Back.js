@@ -1,5 +1,3 @@
-var shapeQueue = [];
-var shapeNumber = 0;
 var shapeLevel = 0;
 var shapeIteration = [
     [1, 3],
@@ -14,12 +12,16 @@ var shapeIteration = [
 
 var shapeGameTime;
 var shapeTotalHit;
+var shapeQueue;
+var shapeNumber;
 
 function gameNBack(n) {
     loadShapes();
+    shapeNumber = 0;
     shapeLevel = n;
     shapeGameTime = 0;
     shapeTotalHit = 0;
+    shapeQueue = [];
 
     var topFrame = '<div id="nBackTopFrame"></div>';
     var bottomFrame = '<div id="nBackBottomFrame"></div>';
@@ -44,12 +46,12 @@ function gameNBack(n) {
     topFrame.append(title);
     d3.select("#titleText").transition().style("opacity", 1).duration(1000);
 
-    playShapes(topFrame);
+    playShapes(topFrame, false);
 
 }
 
-function playShapes(topFrame) {
-    if (shapeNumber < shapeQueue.length) {
+function playShapes(topFrame, end) {
+    if (shapeNumber < shapeQueue.length && !end) {
         topFrame.append(shapeQueue[shapeNumber]);
         var newShape = d3.select("#bigShape" + shapeNumber);
         newShape.style("left", "3%");                                                     //KAO 25%
@@ -57,20 +59,22 @@ function playShapes(topFrame) {
         newShape.transition().style("left", "0%").duration(400);
     }
 
-    if (shapeNumber > 0) {
+    if (shapeNumber > 0 || end) {
         prevShape = shapeNumber - 1;
         var oldShape = d3.select("#bigShape" + prevShape);
         oldShape.select(".imageShape").transition().style("opacity", 0).duration(400);
         oldShape.transition().style("left", "-25%").duration(400);
         setTimeout(function() {
             $("#bigShape" + prevShape).remove();
-        }, 450);
+            if (end)
+                wrapUp();
+        }, 400);
     }
 
     if (shapeNumber < shapeLevel) {
         setTimeout(function() {
             playShapes(topFrame);
-        }, 2500);
+        }, 2000);
     }
 
     if (shapeNumber == shapeQueue.length)
@@ -82,13 +86,14 @@ function playShapes(topFrame) {
 function wrapUp() {
     var totalHit = shapeTotalHit;
     var totalPercent = totalHit / (shapeQueue.length - shapeLevel);
-    gameTime = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
-    console.log(gameTime);
+    //console.log(gameScore);
 
     d3.select("#titleText").transition().style("opacity", 0).duration(200);
-    d3.select("#nBackBottomFrame").transition().style("opacity", 0).duration(200).each("end", function() {
+    d3.select("#nBackBottomFrame").transition().style("opacity", 0).duration(200);
+    setTimeout(function() {
         mainWindow.empty();
-    });
+        gameScore = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
+    }, 400);
 }
 
 function fillBottomFrame(bottomFrame) {

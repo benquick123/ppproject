@@ -29,7 +29,7 @@ function handleGameplay(){
 
     gameScore = null;                                                   // Set gameStore to null before game begins!
     //gameSpatial(it);
-    gameNBack(2);
+    gameNBack(1);
 
     waitGameEnd();
 }
