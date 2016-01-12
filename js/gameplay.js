@@ -5,12 +5,15 @@ var colorStart = "#393939";
 var colorIncorrect = "#FF6A62";
 var gameIterations = [0,0,0];
 var gameScore;
-var it = 0;
+var gameFunctions;
+
 function loadGameplay() {                                               // Init global vars for gameplay.
     console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
+    gameFunctions = [gameSpatial, gameNBack, gameRaw];
+    gameFunctions = shuffleArray(gameFunctions);
+
     mainWindow.empty();
-    //gameRaw(0);
-    countdown(1);
+    countdown(3);
 }
 
 function waitGameEnd() {                                                // Check every x ms if game ended
@@ -20,16 +23,35 @@ function waitGameEnd() {                                                // Check
         mainWindow.empty();
         console.log(gameScore);                                         // TODO something with score.
 
-        it++;
+        if (gameMode == 0) {
+            if (gameScore[1] == 1)
+                gameIterations[gameMemoryMode]++;
+            gameMemoryMode = (gameMemoryMode + 1) % 3;
+        }
+        else if (gameMode == 1) {
+
+        }
         handleGameplay();                                               // Continue with games
     }
 }
 
-function handleGameplay(){
-
+function handleGameplay() {
     gameScore = null;                                                   // Set gameStore to null before game begins!
-    //gameSpatial(it);
-    gameNBack(1);
+
+    if (gameMode == 0)
+        gameFunctions[gameMemoryMode](gameIterations[gameMemoryMode]);
+    else if (gameMode == 1) {
+        switch(gameMemoryMode) {
+            case 0 :
+                gameRaw(gameIterations[gameMemoryMode]);
+                break;
+            case 1 :
+                gameNBack(gameIterations[gameMemoryMode]);
+                break;
+            case 2 :
+                gameSpatial(gameIterations[gameMemoryMode]);
+        }
+    }
 
     waitGameEnd();
 }

@@ -8,7 +8,7 @@ function loadShapes() {
         shapes[i] += '</div>';
     }
 
-    shuffleShapes(shapes);
+    shuffleArray(shapes);
 }
 
 function onShapeClick () {
@@ -52,7 +52,7 @@ function onShapeOut () {
     d3.select("#" + this.id).transition().style("background-color", "transparent").duration(200);
 }
 
-function shuffleShapes(array) {
+function shuffleArray(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (0 !== currentIndex) {

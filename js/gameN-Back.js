@@ -18,7 +18,7 @@ var shapeNumber;
 function gameNBack(n) {
     loadShapes();
     shapeNumber = 0;
-    shapeLevel = n;
+    shapeLevel = n+1;
     shapeGameTime = 0;
     shapeTotalHit = 0;
     shapeQueue = [];
@@ -33,7 +33,7 @@ function gameNBack(n) {
 
     fillBottomFrame(bottomFrame);
 
-    var total = shapeIteration[n-1][0] + shapeIteration[n-1][1];
+    var total = shapeIteration[n][0] + shapeIteration[n][1];
     for (var i = 0; i < total; i++) {
         var shapeN = Math.floor(Math.random() * 8);
         shapeQueue[i] = $.parseHTML(shapes[shapeN]);
