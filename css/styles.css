@@ -15,7 +15,7 @@ body {
     top:50%;
     left:50%;
     border-style: solid;
-    border-width: 4vh;
+    border-width: 8vh 4vh 4vh 4vh;
     border-color: #b0b0b0;
     border-radius: 2vh;
 }
@@ -136,4 +136,25 @@ div#countdown {
     width: 100%;
     height: 50%;
     top:20%;
+}
+
+.gameInfo {
+    position: absolute;
+    -ms-transform: translate(-50%,0%);
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
+    left:50%;
+    top:6.5%;
+    //background-color: black;
+    height: 8vh;
+    width: 75vh;
+}
+
+#timeRemaining {
+    position:absolute;
+    top:50%;
+    -ms-transform: translate(0%,-50%);
+    -webkit-transform: translate(0%,-50%);
+    transform: translate(0%,-50%);
+    font-size:6vh;
 }

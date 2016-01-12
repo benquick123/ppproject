@@ -26,6 +26,12 @@ function onButtonClick() {
         gameMode = 1;
         gameMemoryMode = 2;
     }
+    else if (this.id == "buttonBackToMenu") {
+        mainWindow.empty();
+        $(".gameInfo").remove();
+        clearInterval(gameTimer);
+        setTimeout(loadMainMenu, 10);
+    }
 
     var children = mainWindow.children();
     d3.select("img#logo").transition().style("opacity", 0).duration(600).each("end", call);

@@ -43,7 +43,7 @@ function gameRaw(iter){              // Main function
         }
     }
     getExamples();
-    console.log(rawData);
+    //console.log(rawData);
     mainWindow.append('<div class="button" id="buttonContinue" style="' +
         'top:'+86+'%;' +
         'opacity:'+0+';' +

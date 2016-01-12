@@ -7,24 +7,19 @@ var gameIterations = [0,0,0];
 var gameScore;
 var gameFunctions;
 
-var gameTimer, gameSeconds;
+var gameTimer, gameSeconds, totalGameTime;
 
 function loadGameplay() {                                               // Init global vars for gameplay.
-    console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
+    //console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
     gameFunctions = [gameSpatial, gameNBack, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
 
     mainWindow.empty();
     gameSeconds = 0;
-    gameTimer = setInterval(
-        function() {
-            if (gameSeconds > 60)
-                gameDisplayScore();
-            gameSeconds++;
-            console.log(gameSeconds);
-        }, 1000
-    );
-    countdown(1);
+    totalGameTime = 60;
+    loadGameInfo();
+
+    countdown(3);
 }
 
 function waitGameEnd() {                                                // Check every x ms if game ended
@@ -63,8 +58,22 @@ function handleGameplay() {
                 gameSpatial(gameIterations[gameMemoryMode]);
         }
     }
-
     waitGameEnd();
+}
+
+function loadGameInfo() {
+    var gameInfo = '<div class="gameInfo" style="opacity:0;"><span id="timeRemaining"></span></div>';
+    $("body").append(gameInfo);
+    if (gameMode == 0)
+        $("#timeRemaining")[0].innerHTML = totalGameTime;
+
+    var text = (gameMode == 1) ? "Končaj" : "Glavni meni";
+
+    var button = '<div class="button" id="buttonBackToMenu" style="background-color:#FB892A; height:80%; width:30%; top:50%; left:85%;">';
+    button += '<span class="buttonText">' + text + '</span>';
+    button += '</div>';
+    $(".gameInfo").append(button);
+    addEventListeners("buttonBackToMenu");
 }
 
 function countdown(seconds) {
@@ -79,6 +88,15 @@ function countdown(seconds) {
             clearInterval(intervalID);
             mainWindow.empty();
             handleGameplay();
+            d3.select(".gameInfo").transition().style("opacity", 1).duration(200);
+            if (gameMode == 0) {
+                gameTimer = setInterval(function() {
+                    if (gameSeconds > totalGameTime)
+                        gameDisplayScore();
+                    gameSeconds++;
+                    $("#timeRemaining")[0].innerHTML = totalGameTime - gameSeconds;
+                }, 1000);
+            }
         }
         countdownText[0].innerText = seconds;
         d3.select("#" + countdownText[0].id).style("opacity", 1);
