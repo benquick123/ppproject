@@ -39,6 +39,11 @@ function gameNBack(n) {
         shapeQueue[i][0].className = "currShape";
         shapeQueue[i][0].firstChild.id = "imgShape" + shapeN;
     }
+
+    var title = '<div id="titleText" class="titleText" style="opacity:0;">◀ ' + shapeLevel + ' ◀</div>'
+    topFrame.append(title);
+    d3.select("#titleText").transition().style("opacity", 1).duration(1000);
+
     playShapes(topFrame);
 
 }
@@ -79,7 +84,11 @@ function wrapUp() {
     var totalPercent = totalHit / (shapeQueue.length - shapeLevel);
     gameTime = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];
     console.log(gameTime);
-    mainWindow.empty();
+
+    d3.select("#titleText").transition().style("opacity", 0).duration(200);
+    d3.select("#nBackBottomFrame").transition().style("opacity", 0).duration(200).each("end", function() {
+        mainWindow.empty();
+    });
 }
 
 function fillBottomFrame(bottomFrame) {
