@@ -1,6 +1,7 @@
 var gameMode = 0;
 var gameMemoryMode = 0;
 var gameIterations = [0,0,0];
+var eachGameScore = [0,0,0];
 var gameScore;
 var gameFunctions;
 var gameCountdown;
@@ -16,7 +17,7 @@ function loadGameplay() {                                               // Init 
 
     mainWindow.empty();
     gameSeconds = 0;
-    totalGameTime = 1;
+    totalGameTime = 60;
     gameCountdown = 1;
     loadGameInfo();
 
@@ -24,22 +25,33 @@ function loadGameplay() {                                               // Init 
 }
 
 function waitGameEnd() {                                                // Check every x ms if game ended
-    if(gameScore === null)
-        setTimeout(waitGameEnd, 50);
-    else {
-        mainWindow.empty();
-        console.log(gameScore);                                         // TODO something with score.
+    mainWindow.empty();
 
-        if (gameMode == 0) {
-            if (gameScore[1] == 1)
-                gameIterations[gameMemoryMode]++;
-            gameMemoryMode = (gameMemoryMode + 1) % 3;
-        }
-        else if (gameMode == 1) {
+    if (gameMode == 0) {
+        if (gameScore[1] == 1)
+            gameIterations[gameMemoryMode]++;
 
+        tmpScore = ((gameIterations[gameMemoryMode]+1) * gameScore[1]) / (gameScore[2] / totalGameTime);
+        console.log(tmpScore);
+
+        switch(gameFunctions[gameMemoryMode].name) {
+            case "gameRaw" :
+
+                break;
+            case "gameNBack" :
+                break;
+            case "gameSpatial" :
+                break;
         }
-        handleGameplay();                                               // Continue with games
+
+        gameMemoryMode = (gameMemoryMode + 1) % 3;
+        console.log(gameMemoryMode);
     }
+    else if (gameMode == 1) {
+
+    }
+    gameScore = null;
+    handleGameplay();                                               // Continue with games
 }
 
 function handleGameplay() {
@@ -60,7 +72,7 @@ function handleGameplay() {
         }
     }
 
-    waitGameEnd();
+    //waitGameEnd();
 }
 
 function loadGameInfo() {
@@ -113,8 +125,11 @@ function gameDisplayScore(){
     clearTimeout(padSequenceIT[1]);
     clearInterval(gameTimer);
     mainWindow.empty();
+    d3.select(".gameInfo").transition().style("opacity", 0).duration(200).each("end", function() {
+        $(".gameInfo").remove();
+    })
     var tmpScore = 100;
-    console.log("End");
+    //console.log("End");
 
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
@@ -130,7 +145,7 @@ function gameDisplayScore(){
         '</div>')
 
     var buttonNames = ["Analiza", "Nazaj"];
-    var buttonColor = "#FB892A";
+    var buttonColor = colorButton;
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 70 + i * 15;
         var button = createButton(buttonNames[i], buttonColor, position);

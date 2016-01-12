@@ -134,6 +134,7 @@ function rawWrapUp(){
 
         gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  rawGameTime ];
         mainWindow.empty();
+        waitGameEnd();
     },200)
 }
 
