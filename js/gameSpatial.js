@@ -1,6 +1,3 @@
-var padPressedColor = "#ADC0ED";
-var padColor = "#2B51A8";
-var padShadedColor = "#0F368F";
 var padIteration = [
     [3, 800, 3],
     [3, 500, 3],
@@ -78,14 +75,14 @@ function getSequence(){
             j = Math.floor(Math.random() * padSettingN);
         }while (selectedPads.indexOf("#pad"+i+""+j) > -1);
         selectedPads[k] = "#pad"+i+""+j;
-        padSequenceColor[k] = padColor;
+        padSequenceColor[k] = colorBlue;
     }
     return selectedPads;
 }
 
 function padHit(){
     if ("#pad"+this.id[3]+""+this.id[4] == padSequence[0]){
-        d3.select(padSequence[0]).transition().duration(100).style("background-color", padPressedColor);
+        d3.select(padSequence[0]).transition().duration(100).style("background-color", colorBlueLight);
 
         var tmp = padSequence.splice(0,1);
         padPressed.add(tmp[0]);
@@ -108,14 +105,14 @@ function padWrapUp(){
 }
 function padOut() {
     if (!padPressed.has("#" + this.id))
-        d3.select("#" + this.id).transition().style("background-color", padColor).duration(200);
+        d3.select("#" + this.id).transition().style("background-color", colorBlue).duration(200);
     else
-        d3.select("#" + this.id).transition().style("background-color", padPressedColor).duration(200);
+        d3.select("#" + this.id).transition().style("background-color", colorBlueLight).duration(200);
 }
 
 function padOver() {
     if (!padPressed.has("#"+this.id))
-        d3.select("#" + this.id).transition().style("background-color", padShadedColor).duration(200);
+        d3.select("#" + this.id).transition().style("background-color", colorBlueDark).duration(200);
 }
 
 function createPad(i, j){
@@ -129,5 +126,5 @@ function createPad(i, j){
         'left:' + (frame+(margin*j)+(padSize*j)) +'%; ' +
         'width:' + padSize +'%; ' +
         'height:' + padSize +'%; ' +
-        'background-color:' + padColor + '"></div>';
+        'background-color:' + colorBlue + '"></div>';
 }
