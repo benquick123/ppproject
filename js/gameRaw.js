@@ -1,17 +1,15 @@
-var rawPressedColor = "#ADC0ED";
-var rawColor = "#2B51A8";
-var rawShadedColor = "#0F368F";
+
 var rawIteration = [
-    [3, 800, 3],
-    [3, 500, 3],
-    [3, 650, 4],
-    [3, 650, 5],
-    [4, 800, 5],
-    [4, 650, 5],
-    [4, 700, 6],
-    [5, 580, 4],
-    [5, 640, 5],
-    [5, 780, 6]
+    [3, 1, 3],
+    [3, 1, 4],
+    [3, 2, 3],
+    [4, 1, 5],
+    [4, 2, 3],
+    [4, 2, 4],
+    [4, 3, 2],
+    [5, 1, 4],
+    [5, 2, 3],
+    [5, 3, 2]
 ];
 var rawCurrentExample;
 var rawExamples;
@@ -30,9 +28,9 @@ function rawInit(iter){
     rawExamples = new Set();
     rawData = new Set();
     rawGuessed = new Set();
-    rawSettingNumExamples = 3;          // = padIteration[iter][2];
-    rawSettingDigit = 1;                // = padIteration[iter][1];
-    rawSettingN = 3;                    // = padIteration[iter][0];
+    rawSettingNumExamples = padIteration[iter][2];
+    rawSettingDigit = padIteration[iter][1];
+    rawSettingN =  padIteration[iter][0];
     rawNumExamplesCounter = 0;
 }
 
@@ -50,14 +48,12 @@ function gameRaw(iter){              // Main function
         'opacity:'+0+';' +
         'background-color:'+colorCorrect+'' +
         '"></div>');
-    d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1);});
-    d3.select("#buttonContinue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", continueWithRawCheck);
+    d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
     rawGameTime = new Date().getTime();
 }
 
 function continueWithRawCheck(){
-    console.log(rawData);
-    if (rawNumExamplesCounter == rawSettingNumExamples) rawWrapUp();
+    if (rawNumExamplesCounter == rawSettingNumExamples) { rawWrapUp(); rawNumExamplesCounter = 0;}
     else {
         rawCurrentExample = Array.from(rawExamples)[Math.floor(Math.random() * rawExamples.size)];
 
@@ -89,25 +85,25 @@ function continueWithRawCheck(){
             'font-size:' + 15 + 'vh' +
             '">' + rawCurrentExample + '</span>' +
             '</div>');
-        d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawLookListener);});
+        d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
     }
 }
-function rawLookListener(){
-    
+function rawSetListeners(){
     if (this.id == "buttonFalse") d3.select("#buttonFalse").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawHit).transition().duration(200).style("opacity",1);
     else if (this.id == "buttonTrue") d3.select("#buttonTrue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawHit).transition().duration(200).style("opacity",1);
+    else if(this.id == "buttonContinue") d3.select("#buttonContinue").on("mouseover", onButtonRawOver).on("mouseout", onButtonRawOut).on("click", rawCheckOut).transition().duration(200).style("opacity",1);
 }
 function getExamples(){
     var numPositives = Math.floor(Math.random() * Math.min(rawSettingNumExamples,rawData.size));        // Selecte number of elements already in rawData as positives
     var rawDataArray = Array.from(rawData);
-    var tmp;
-    for (var i=0;i<numPositives;i++){                                                                   // Fill examples with some positives
+    var tmp, i;
+    for (i=0;i<numPositives;i++){                                                                   // Fill examples with some positives
         do {
             tmp = rawDataArray[Math.floor(Math.random() * rawDataArray.length)];
         }while(rawExamples.has(tmp));
         rawExamples.add(tmp);
     }
-    for (var i=rawExamples.size;i<rawSettingNumExamples;i++) {
+    for (i=rawExamples.size;i<rawSettingNumExamples;i++) {
         do {
             tmp = Math.floor(Math.random() * Math.pow(10, rawSettingDigit))
         } while (rawExamples.has(tmp)); // || rawData.has(tmp));   <--  if uncommented, number of positives will only be numPositives.
@@ -118,15 +114,17 @@ function rawHit(){
     if ((this.id == "buttonFalse" && !rawData.has(rawCurrentExample)) || (this.id == "buttonTrue" && rawData.has(rawCurrentExample))){
         rawNumExamplesCounter++;
         rawExamples.delete(rawCurrentExample);
-        continueWithRawCheck();
+        rawCheckOut();
     }
     else rawWrapUp();
 }
-
+function rawCheckOut(){
+    d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",0).each("end",continueWithRawCheck);});
+}
 function rawWrapUp(){
     if ( rawNumExamplesCounter == rawSettingNumExamples ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
-    var time = (new Date().getTime()-rawGameTime)/1000
+    var time = (new Date().getTime()-rawGameTime)/1000;
     gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  time ];
     console.log(gameScore);
     mainWindow.empty();
