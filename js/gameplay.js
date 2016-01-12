@@ -9,14 +9,14 @@ var it = 0;
 function loadGameplay() {                                               // Init global vars for gameplay.
     console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
     mainWindow.empty();
-    countdown(3);
+    gameRaw(0);
+    //countdown(3);
 }
 
 function waitGameEnd() {                                                // Check every x ms if game ended
     if(gameScore === null)
         setTimeout(waitGameEnd, 50);
     else {
-        mainWindow.empty();
         console.log(gameScore);                                         // TODO something with score.
 
         it++;
@@ -42,7 +42,7 @@ function countdown(seconds) {
         seconds--;
         if (seconds == 0) {
             clearInterval(intervalID);
-            mainWindow.empty();
+
             handleGameplay();
         }
         countdownText[0].innerText = seconds;

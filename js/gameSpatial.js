@@ -57,7 +57,7 @@ function gameSpatial(iter){              // Main function
     },padSettingTime*padSettingBlinks+600);
 
 }
-function showSequence(seq){
+function showSequence(){
     var n = padSettingBlinks;
     var k = 0;
     var intervalID = setInterval(function() {
@@ -91,18 +91,19 @@ function padHit(){
         padPressed.add(tmp[0]);
 
         if (padSequence.length < 1) {
-            backgroundNotify(colorCorrect);
-            gameScore = [padPressed.size, 1, (new Date().getTime()-padGameTime)/1000];
-
+            padWrapUp();
         }
     }
     else {
-        backgroundNotify(colorIncorrect);
-        gameScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
-
+        padWrapUp();
     }
 }
-
+function padWrapUp(){
+    if ( padPressed.size == padSettingBlinks ) backgroundNotify(colorCorrect);
+    else backgroundNotify(colorIncorrect);
+    gameScore = [padPressed.size, padPressed.size/padSettingBlinks, (new Date().getTime()-padGameTime)/1000];
+    mainWindow.empty();
+}
 function padOut() {
     if (!padPressed.has("#" + this.id))
         d3.select("#" + this.id).transition().style("background-color", padColor).duration(200);

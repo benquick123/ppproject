@@ -1,5 +1,5 @@
 body {
-    background-color:#eeeeee;
+    background-color: #eeeeee;
     margin: 0px;
     font-family: 'Ubuntu', sans-serif;
 }
@@ -39,6 +39,16 @@ img#logo{
     opacity: 0;
 }
 
+.data {
+    position:absolute;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    background-color: white;
+    color: #242525;
+    text-align: center;
+    font-size:8vh;
+}
 .button {
     height: 12.5%;
     width: 50%;
@@ -55,6 +65,7 @@ img#logo{
     cursor:pointer;
 }
 span.buttonText {
+    color: #242525;
     width:100%;
     font-size:2.75vh;
     position:absolute;
