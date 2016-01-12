@@ -1,21 +1,20 @@
 var instrRaw =
-    "Na igralni površini se prikažejo surovi podatki v obliki števil." +
-    "Tvoja naloga je, da si prikazane podatke čim hitreje zapomniš. " +
-    "Ob pritisku na zelen gumb se prične preverjanje tvojega spomina. " +
-    "Na sredini igralne površine se pokaže določeno število, tvoja naloga pa je, " +
-    "da s pritiskom na zelen ali rdeč gumb na podlagi spomina odločiš, ali je bilo število prikazano " +
-    "v prvotni množici števil. S pritiskom na zelen gumb trditev potrdiš, z pritiskom na rdeč gumb pa zavrneš. " +
-    "Težavnost se povečuje s spremembo števila podatkov, velikosti množice števil in " +
-    "številom primerov. " +
-    "Čas, ki ga porabiš, da si števila zapomniš je vključen v izračun točk. Hitrejši kot si, več točk dobiš.";
+    "1. Ploščki zasvetijo v določenem zaporedju.\n" +
+    "2. Blisk ozadja označuje začetek igre.\n" +
+    "3. Po začetku poklikaj ploščke v zaporedju kot je bil prikazano.";
 var instrNBack = "Naredi to i ono";
-var instrSpatial = "Naredi to i ono";
+var instrSpatial = "Na igralni površini so razporejeni modri ploščki. " +
+    "Vsako igro se v določenem zaporedju nekaj ploščkov zasveti. " +
+    "Naloga je, da po blisku ozadja pritisneš vse ploščke v enakem zaporedju, " +
+    "kot je bilo prkazano na začetku. ";
 var instrCurrent;
 
-function showInstructions(){
+function instructionShow(){
     console.log(this.id);
+
     d3.select("img#logo").transition().style("opacity", 0).duration(350);
     var selectedText;
+
     if (this.id == "buttonPomnenjegolihpodatkov") selectedText = instrRaw;
     else if (this.id == "buttonDelovnispomin")selectedText = instrNBack;
     else selectedText = instrSpatial;
@@ -24,17 +23,15 @@ function showInstructions(){
     instrCurrent += selectedText;
     instrCurrent += '</div>';
     mainWindow.append(instrCurrent);
+
     d3.select("#instruction").transition().duration(500).style("opacity", 1);
-    d3.select("#" + this.id).transition().style("background-color", "#D56100").duration(200);
+    d3.select("#" + this.id).transition().style("background-color", colorButtonSelected).duration(200);
 
 }
 
-function reset(){
-    d3.select("#" + this.id).transition().style("background-color", "#FB892A").duration(200);
-
-    d3.select("#instruction").transition().style("opacity", 0).duration(350).each("end",function(){
-        $("#instruction").remove();
-        console.log($("#instruction").remove());
-    });
+function instructionReset(){
+    d3.select("#" + this.id).transition().style("background-color", colorButton).duration(200);
+    $("#instruction").remove();
+    d3.select("#instruction").transition().style("opacity", 0).duration(350);
     d3.select("img#logo").transition().style("opacity", 1).duration(350);
 }

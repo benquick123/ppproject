@@ -109,24 +109,22 @@ function loadAnalysis(){                // TODO analysis
     mainWindow.empty();
 }
 
-function loadInstructions() {            // TODO instructions
+function loadInstructions() {
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
     var buttonNames = ["Pomnenje golih podatkov", "Delovni spomin", "Prostorski spomin"];
-    var buttonColor = "#FB892A";
+    var buttonColor = colorButton;
 
     for (var i = 0; i < buttonNames.length; i++) {
-        var position = 45 + i * 15;
+        var position = 63+i*8;
         var button = createButton(buttonNames[i], buttonColor, position);
         mainWindow.append(button);
         d3.select("#button" + buttonNames[i].replace(/ /g, ""))
-            .on("mouseenter", showInstructions)
-            .on("mouseout", reset)
             .style("height","6.25%")
-            .style("top",function () {console.log((63+i*7)); return (63+i*7).toString()+"%"})
             .transition()
             .duration(1000)
             .style("opacity", 1);
+        $("#button" + buttonNames[i].replace(/ /g, "")).on("mouseout", instructionReset).on("mouseover", instructionShow);
     }
     var button = createButton("Nazaj", buttonColor, 90);
     mainWindow.append(button);
@@ -137,5 +135,6 @@ function loadInstructions() {            // TODO instructions
         .each("end", function () {
             addEventListeners(this.id);
         });
+
     d3.select("img#logo").transition().style("opacity", 1).duration(1000);
 }
