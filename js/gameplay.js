@@ -6,6 +6,7 @@ var colorIncorrect = "#FF6A62";
 var gameIterations = [0,0,0];
 var gameScore;
 var gameFunctions;
+var gameCountdown;
 
 var gameTimer, gameSeconds, totalGameTime;
 var gameSumScore;
@@ -19,10 +20,11 @@ function loadGameplay() {                                               // Init 
 
     mainWindow.empty();
     gameSeconds = 0;
-    totalGameTime = 60;
+    totalGameTime = 1;
+    gameCountdown = 1;
     loadGameInfo();
 
-    countdown(3);
+    countdown(gameCountdown);
 }
 
 function waitGameEnd() {                                                // Check every x ms if game ended
@@ -95,10 +97,12 @@ function countdown(seconds) {
             d3.select(".gameInfo").transition().style("opacity", 1).duration(200);
             if (gameMode == 0) {
                 gameTimer = setInterval(function() {
-                    if (gameSeconds > totalGameTime)
+                    if (gameSeconds >= totalGameTime)
                         gameDisplayScore();
-                    gameSeconds++;
-                    $("#timeRemaining")[0].innerHTML = totalGameTime - gameSeconds;
+                    else {
+                        gameSeconds++;
+                        $("#timeRemaining")[0].innerHTML = totalGameTime - gameSeconds;
+                    }
                 }, 1000);
             }
         }
@@ -109,9 +113,42 @@ function countdown(seconds) {
 }
 
 function gameDisplayScore(){
-
+    clearInterval(padSequenceIT[0]);
+    clearTimeout(padSequenceIT[1]);
+    clearInterval(gameTimer);
     mainWindow.empty();
+    var tmpScore = 100;
     console.log("End");
+
+    mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
+
+    mainWindow.append('<div class="data" id="score" style="' +
+        'top:'  + 50 + '%; ' +
+        'left:' + 50 + '%;' +
+        'opacity:' + 0 + ';' +
+        'width:' + 100 +'%; ' +
+        'font-size:'+5+'vh;'+
+        'height:' + 10 +'% ' +' ">'+
+        "Točke: " +
+        tmpScore +
+        '</div>')
+
+    var buttonNames = ["Analiza", "Nazaj"];
+    var buttonColor = "#FB892A";
+    for (var i = 0; i < buttonNames.length; i++) {
+        var position = 70 + i * 15;
+        var button = createButton(buttonNames[i], buttonColor, position);
+        mainWindow.append(button);
+        d3.select("#button" + buttonNames[i].replace(" ", ""))
+            .transition()
+            .style("opacity", 1)
+            .duration(1000)
+            .each("end", function() {
+                addEventListeners(this.id);
+            });
+    }
+    d3.select("img#logo").transition().style("opacity", 1).duration(1000);
+    d3.select("#score").transition().style("opacity", 1).duration(1000);
 }
 
 function backgroundNotify(color){

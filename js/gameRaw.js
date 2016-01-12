@@ -50,8 +50,13 @@ function gameRaw(iter){              // Main function
         '"></div>');
     d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).transition().duration(200).style("opacity",1).each("end",rawSetListeners);});
     rawGameTime = new Date().getTime();
+
 }
-function rawGetTime(){ rawGameTime = (new Date().getTime()-rawGameTime)/1000; rawCheckOut()}
+function rawGetTime(){
+    rawGameTime = (new Date().getTime()-rawGameTime)/1000;
+    backgroundNotify(colorStart);
+    rawCheckOut();
+}
 function continueWithRawCheck(){
     var run = true;
     if (rawNumExamplesCounter == rawSettingNumExamples) { rawWrapUp(); run = false;}

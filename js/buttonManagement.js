@@ -7,6 +7,10 @@ function onButtonClick() {
     }
     else if (this.id == "buttonVadi")
         call = loadPractice;
+    else if (this.id == "buttonAnaliza")
+        call = loadAnalysis;
+    else if (this.id == "buttonNavodila")
+        call = loadInstructions;
     else if (this.id == "buttonLestvicarezultatov")
         call = loadHighscore;
     else if (this.id == "buttonNazaj")
@@ -30,20 +34,23 @@ function onButtonClick() {
         mainWindow.empty();
         $(".gameInfo").remove();
         clearInterval(gameTimer);
+        clearInterval(padSequenceIT[0]);
+        clearTimeout(padSequenceIT[1]);
         setTimeout(loadMainMenu, 10);
     }
-
+    removeEventListeners();
     var children = mainWindow.children();
     d3.select("img#logo").transition().style("opacity", 0).duration(600).each("end", call);
     d3.select("div#titleText").transition().style("opacity", 0).duration(600).each("end", call);
     for (var i = 1; i < children.length; i++) {
         var duration;
         if (children[i].id == this.id)
-            duration = 200;
+            duration = 400;
         else
             duration = 600;
         d3.select("#" + children[i].id).transition().style("opacity", 0).duration(duration);
     }
+
 }
 
 function onButtonMouseOut() {

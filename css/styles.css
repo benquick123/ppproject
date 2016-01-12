@@ -30,6 +30,14 @@ img#logo{
     margin-top: 6vh;
     margin-bottom: 4vh;
 }
+.instruction {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    height: 50%;
+    width: 90%;
+    opacity: 0;
+}
 .pad {
     position:absolute;
     border-style:solid;
@@ -44,7 +52,7 @@ img#logo{
     -ms-transform: translate(-50%,-50%);
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
-    background-color: white;
+    background-color: transparent;
     color: #242525;
     text-align: center;
     font-size:8vh;

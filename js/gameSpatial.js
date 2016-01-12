@@ -18,7 +18,7 @@ var padPressed = new Set();
 var padSequence;
 var padSequenceColor = [];
 var padGameTime;
-
+var padSequenceIT = [];
 var padSettingBlinks;
 var padSettingTime;
 var padSettingN;
@@ -50,8 +50,8 @@ function gameSpatial(iter){              // Main function
     padSequence = getSequence();
     setTimeout(showSequence, 300);
 
-    setTimeout(function() {
-        d3.selectAll("#mainWindow").each(function() {d3.selectAll(this.childNodes).on("click", padHit).on("mouseover", padOver).on("mouseout", padOut);});
+    padSequenceIT[1] = setTimeout(function() {
+        d3.selectAll(".pad").on("click", padHit).on("mouseover", padOver).on("mouseout", padOut);
         backgroundNotify(colorStart);
         padGameTime = new Date().getTime();
     },padSettingTime*padSettingBlinks+600);
@@ -60,9 +60,9 @@ function gameSpatial(iter){              // Main function
 function showSequence(){
     var n = padSettingBlinks;
     var k = 0;
-    var intervalID = setInterval(function() {
+    padSequenceIT[0] = setInterval(function() {
         n--;
-        if (n == 0) clearInterval(intervalID);
+        if (n == 0) clearInterval(padSequenceIT[0]);
 
         d3.select(padSequence[k]).transition().duration(50).style("opacity", 0.2).transition().duration(350).style("opacity", 1);
         k++;
