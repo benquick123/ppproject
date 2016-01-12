@@ -29,8 +29,9 @@ function handleGameplay(){
 
     gameScore = null;                                                   // Set gameStore to null before game begins!
     //gameSpatial(it);
-    gameNBack(2);
-
+    //gameNBack(it);
+    console.log("sad");
+    gameRaw(it);
     waitGameEnd();
 }
 

@@ -28,9 +28,9 @@ function rawInit(iter){
     rawExamples = new Set();
     rawData = new Set();
     rawGuessed = new Set();
-    rawSettingNumExamples = padIteration[iter][2];
-    rawSettingDigit = padIteration[iter][1];
-    rawSettingN =  padIteration[iter][0];
+    rawSettingNumExamples = rawIteration[iter][2];
+    rawSettingDigit = rawIteration[iter][1];
+    rawSettingN =  rawIteration[iter][0];
     rawNumExamplesCounter = 0;
 }
 
@@ -124,10 +124,12 @@ function rawCheckOut(){
 function rawWrapUp(){
     if ( rawNumExamplesCounter == rawSettingNumExamples ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
-    var time = (new Date().getTime()-rawGameTime)/1000;
-    gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  time ];
-    console.log(gameScore);
-    mainWindow.empty();
+    setTimeout(function(){
+        var time = (new Date().getTime()-rawGameTime)/1000;
+        gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  time ];
+        console.log(gameScore);
+        mainWindow.empty();
+    },200)
 }
 
 function onButtonRawOut() {
