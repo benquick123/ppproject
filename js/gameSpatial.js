@@ -101,6 +101,7 @@ function padWrapUp(){
     setTimeout(function() {
         gameScore = [padPressed.size, padPressed.size / padSettingBlinks, (new Date().getTime() - padGameTime) / 1000];
         mainWindow.empty();
+        waitGameEnd();
     }, 200);
 }
 function padOut() {
