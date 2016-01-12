@@ -8,9 +8,12 @@ var gameScore;
 var gameFunctions;
 
 var gameTimer, gameSeconds, totalGameTime;
+var gameSumScore;
 
 function loadGameplay() {                                               // Init global vars for gameplay.
     //console.log("gameMode: " + gameMode + ", gameMemoryMode: " + gameMemoryMode);
+    gameSumScore = 0;
+    gameSeconds = 0;
     gameFunctions = [gameSpatial, gameNBack, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
 
@@ -58,6 +61,7 @@ function handleGameplay() {
                 gameSpatial(gameIterations[gameMemoryMode]);
         }
     }
+
     waitGameEnd();
 }
 
@@ -105,7 +109,9 @@ function countdown(seconds) {
 }
 
 function gameDisplayScore(){
-    console.log("asd");
+
+    mainWindow.empty();
+    console.log("End");
 }
 
 function backgroundNotify(color){

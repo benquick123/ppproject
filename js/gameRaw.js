@@ -43,7 +43,6 @@ function gameRaw(iter){              // Main function
         }
     }
     getExamples();
-    //console.log(rawData);
     mainWindow.append('<div class="button" id="buttonContinue" style="' +
         'top:'+86+'%;' +
         'opacity:'+0+';' +
@@ -113,7 +112,6 @@ function getExamples(){
     }
 }
 function rawHit(){
-    console.log(this.id, rawData);
     if ((this.id == "buttonFalse" && !rawData.has(rawCurrentExample)) || (this.id == "buttonTrue" && rawData.has(rawCurrentExample))){
         rawNumExamplesCounter++;
         rawExamples.delete(rawCurrentExample);
@@ -130,7 +128,6 @@ function rawWrapUp(){
     setTimeout(function(){
 
         gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  rawGameTime ];
-        console.log(gameScore);
         mainWindow.empty();
     },200)
 }
