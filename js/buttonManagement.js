@@ -43,8 +43,9 @@ function onButtonClick() {
     }
     removeEventListeners();
     var children = mainWindow.children();
-    d3.select("img#logo").transition().style("opacity", 0).duration(600).each("end", call);
-    d3.select("div#titleText").transition().style("opacity", 0).duration(600).each("end", call);
+    d3.select("img#logo").transition().style("opacity", 0).duration(600);
+    d3.select("div#titleText").transition().style("opacity", 0).duration(600);
+    setTimeout(call, 600);
     for (var i = 1; i < children.length; i++) {
         var duration;
         if (children[i].id == this.id)
