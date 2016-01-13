@@ -106,6 +106,7 @@ function playShapes(topFrame, end) {
 }
 
 function wrapUp() {
+    //console.log(new Date().getTime());
     var totalHit = shapeTotalHit;
     var totalPercent = totalHit / (shapeQueue.length - shapeIteration[shapeLevel][0]);
     gameScore = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];

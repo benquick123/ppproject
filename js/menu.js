@@ -4,7 +4,7 @@ function loadMainMenu() {
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
-    var buttonNames = ["Igraj", "Vadi", "Lestvica rezultatov", "Navodila"];
+    var buttonNames = ["Igraj", "Vadi", "Analiza", "Navodila"];
     var buttonColor = colorButton;
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 45 + i * 15;

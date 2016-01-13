@@ -130,9 +130,8 @@ function rawCheckOut(){
 function rawWrapUp(){
     if ( rawNumExamplesCounter == rawSettingNumExamples ) backgroundNotify(colorCorrect);
     else backgroundNotify(colorIncorrect);
-    console.log("wrap");
+    //console.log("wrap");
     setTimeout(function(){
-
         gameScore = [rawNumExamplesCounter, rawNumExamplesCounter/rawSettingNumExamples,  rawGameTime ];
         mainWindow.empty();
         waitGameEnd();

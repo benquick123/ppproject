@@ -1,7 +1,7 @@
 var gameMode = 0;
 var gameMemoryMode = 0;
 var gameIterations = [0,0,0];
-var eachGameScore = [0,0,0];
+var eachGameScore = [0.0,0.0,0.0];
 var gameScore;
 var gameFunctions;
 var gameCountdown;
@@ -9,15 +9,19 @@ var gameCountdown;
 var gameTimer, gameSeconds, totalGameTime;
 var gameSumScore;
 
+var finalScore;
+
 function loadGameplay() {                                               // Init global vars for gameplay.
     gameSumScore = 0;
     gameSeconds = 0;
+    gameIterations = [0,0,0];
+    eachGameScore = [0.0,0.0,0.0];
     gameFunctions = [gameNBack, gameSpatial, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
 
     mainWindow.empty();
     gameSeconds = 0;
-    totalGameTime = 5;
+    totalGameTime = 30;
     gameCountdown = 1;
     loadGameInfo();
 
@@ -32,30 +36,29 @@ function waitGameEnd() {                                                // Check
             gameIterations[gameMemoryMode]++;
 
         tmpScore = ((gameIterations[gameMemoryMode]+1) * gameScore[1]) / (gameScore[2] / totalGameTime);
-        console.log(tmpScore);
+
 
         switch(gameFunctions[gameMemoryMode].name) {
             case "gameRaw" :
-
+                eachGameScore[0] += tmpScore * 4;
+                console.log("raw: " + tmpScore * 4);
                 break;
             case "gameNBack" :
+                eachGameScore[1] += tmpScore;
+                console.log("nback: " + tmpScore);
                 break;
             case "gameSpatial" :
+                eachGameScore[2] += tmpScore;
+                console.log("spatial: " + tmpScore);
                 break;
         }
 
         gameMemoryMode = (gameMemoryMode + 1) % 3;
-        console.log(gameMemoryMode);
     }
-    else if (gameMode == 1) {
-
-    }
-    gameScore = null;
     handleGameplay();                                               // Continue with games
 }
 
-function handleGameplay() {
-    gameScore = null;                                                   // Set gameStore to null before game begins!
+function handleGameplay() {                                              // Set gameStore to null before game begins!
 
     if (gameMode == 0)
         gameFunctions[gameMemoryMode](gameIterations[gameMemoryMode]);
@@ -71,8 +74,6 @@ function handleGameplay() {
                 gameSpatial(gameIterations[gameMemoryMode]);
         }
     }
-
-    //waitGameEnd();
 }
 
 function loadGameInfo() {
@@ -128,8 +129,10 @@ function gameDisplayScore(){
     d3.select(".gameInfo").transition().style("opacity", 0).duration(200).each("end", function() {
         $(".gameInfo").remove();
     })
-    var tmpScore = 100;
-    //console.log("End");
+    finalScore = eachGameScore[0] + eachGameScore[1] + eachGameScore[2];
+
+    fileCallback = displayPercentageBest;
+    loadFile();
 
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
@@ -141,7 +144,7 @@ function gameDisplayScore(){
         'font-size:'+5+'vh;'+
         'height:' + 10 +'% ' +' ">'+
         "Točke: " +
-        tmpScore +
+        Math.floor(finalScore) +
         '</div>')
 
     var buttonNames = ["Analiza", "Nazaj"];
@@ -160,6 +163,29 @@ function gameDisplayScore(){
     }
     d3.select("img#logo").transition().style("opacity", 1).duration(1000);
     d3.select("#score").transition().style("opacity", 1).duration(1000);
+
+    setTimeout(function() {
+        saveFile(eachGameScore[0], eachGameScore[1], eachGameScore[2], finalScore)
+    }, 1000);
+}
+
+function displayPercentageBest(rawAvg, nBackAvg, padAvg, allTotalScores) {
+    if (allTotalScores.length >= 5) {
+        var percentage = 0;
+        var i = 0;
+        for (i = 0; i < allTotalScores.length; i++) {
+            //console.log(finalScore + " vs. " + allTotalScores[i])
+            if (finalScore < allTotalScores[i]) {
+                percentage = i / (allTotalScores.length-1);
+                break;
+            }
+        }
+        if (i == allTotalScores.length)
+            percentage = 1;
+
+        percentageText = '<span id="percentageText">Boljši ste od ' + Math.floor(percentage*100) + '% ostalih igralcev.</span>';
+        mainWindow.append(percentageText);
+    }
 }
 
 function backgroundNotify(color){

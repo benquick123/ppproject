@@ -226,3 +226,15 @@ div#countdown {
     bottom:0%;
     left:20%;
 }
+
+#percentageText {
+    color: #242525;
+    font-size:3vh;
+    white-space: nowrap;
+    position:absolute;
+    top:57.5%;
+    left: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}

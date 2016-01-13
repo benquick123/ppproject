@@ -1,5 +1,4 @@
-var rawAvg, nBackAvg, padAvg;
-var allTotalScores;
+var fileCallback;
 
 function loadFile() {
     var iFrame = '<iframe id="file" src="scores.txt" onload="handleFile();" style="display: none;"></iframe>';
@@ -20,16 +19,21 @@ function handleFile() {
         nBackAvg += parseFloat(currValues[1]);
         padAvg += parseFloat(currValues[2]);
         allTotalScores[i] = parseFloat(currValues[3]);
+        //console.log(currValues);
     }
 
     rawAvg /= values.length;
     nBackAvg /= values.length;
     padAvg /= values.length;
+    //console.log(allTotalScores);
+    allTotalScores = allTotalScores.sort(function(a,b) { return a - b;});
 
-    /*console.log(rawAvg);
-    console.log(nBackAvg);
-    console.log(padAvg);
-    console.log(allTotalScores);*/
+    var lastEntry = values[values.length - 2];
+
+    if (fileCallback.name == "displayPercentageBest")
+        fileCallback(rawAvg, nBackAvg, padAvg, allTotalScores);
+    else
+        console.log(lastEntry);
 }
 
 function saveFile(rawResult, nBackResult, padResult, total) {
