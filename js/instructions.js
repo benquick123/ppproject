@@ -12,11 +12,11 @@ var instrRaw =
     "1. Na površini se prikažejo podatki v obliki števil.<br/><br/>"+
     "2. Hitro si jih zapomni in pritisni zelen gumb.<br/><br/>" +
     "3. V naslednjem delu te igra vpraša, če se je določena številka pojavila med podatki.<br/><br/>" +
-    "3. Za potrditev pritisni na zelen gumb, drugače na rdečega.<br/><br/>" +
-    "4. Čas teče le med ogledovanjem podatkov, do pritiska na zelen gumb.";
+    "4. Za potrditev pritisni na zelen gumb, drugače na rdečega.<br/><br/>" +
+    "5. Čas teče le med ogledovanjem podatkov, do pritiska na zelen gumb.";
 var instrNBack =
     "1. Na sredini se prikazujejo liki. Za vsak lik si zapomni barvo in obliko.<br/><br/>"+
-    "2. V zgornjem delu površine je število, ki ti pove, koliko mest nazaj moraš pomniti like.<br/><br/>" +
+    "2. V zgornjem delu površine je število, ki ti pove, za koliko mest nazaj moraš pomniti like.<br/><br/>" +
     "3. Ob blisku se v spodnjem delu prikažejo možni liki. Klikni na tistega, ki se je pojavil n-mest nazaj.<br/><br/>" +
     "4. Čas teče od bliska do prve zmote ali klika na zadnji lik v določenem zaporedju.";
 var instrSpatial =
@@ -35,7 +35,7 @@ function instructionShow(){
     else {selectedText = instrSpatial; selectedIcon = icons[1];}
 
     instrCurrent = '<div class="instruction" id="instruction">';
-    instrCurrent += '<span class="buttonText">' + selectedText + '</span>';
+    instrCurrent += selectedText;
     instrCurrent += '</div>';
     mainWindow.append(instrCurrent);
     mainWindow.append(selectedIcon);
@@ -49,7 +49,7 @@ function instructionShow(){
 function instructionReset(){
     d3.select("#" + this.id).transition().style("background-color", colorButton).duration(200);
     $("#instruction").remove();
-    $(".imageIcon").remove();
+    $("#icon").remove();
     d3.select("#instruction").transition().style("opacity", 0).duration(350);
     d3.select("img#logo").transition().style("opacity", 1).duration(350);
 }
