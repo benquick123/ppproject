@@ -119,12 +119,14 @@ function loadInstructions() {
         var position = 63+i*8;
         var button = createButton(buttonNames[i], buttonColor, position);
         mainWindow.append(button);
+        var tmp = i;
         d3.select("#button" + buttonNames[i].replace(/ /g, ""))
-            .style("height","6.25%")
+            .style("height","6%")
+            .style("cursor", "default")
             .transition()
             .duration(1000)
-            .style("opacity", 1);
-        $("#button" + buttonNames[i].replace(/ /g, "")).on("mouseout", instructionReset).on("mouseover", instructionShow);
+            .style("opacity", 1)
+            .each("end",addInstrEventListeners);
     }
     var button = createButton("Nazaj", buttonColor, 90);
     mainWindow.append(button);
@@ -137,4 +139,8 @@ function loadInstructions() {
         });
 
     d3.select("img#logo").transition().style("opacity", 1).duration(1000);
+}
+
+function addInstrEventListeners(){
+    $("#"+this.id).on("mouseout", instructionReset).on("mouseover", instructionShow);
 }
