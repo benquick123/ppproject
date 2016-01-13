@@ -105,15 +105,13 @@ function onArrowOut() {
     d3.select("#" + this.id).transition().style("opacity", 0).duration(200);
 }
 
-function loadAnalysis(){                // TODO analysis
-    mainWindow.empty();
-}
 
 function loadInstructions() {
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
     var buttonNames = ["Pomnenje golih podatkov", "Delovni spomin", "Prostorski spomin"];
     var buttonColor = colorButton;
+    loadIcons();
 
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 63+i*8;

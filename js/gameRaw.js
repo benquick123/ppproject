@@ -109,7 +109,7 @@ function getExamples(){
     }
     for (i=rawExamples.size;i<rawSettingNumExamples;i++) {
         do {
-            tmp = Math.floor(Math.random() * Math.pow(10, rawSettingDigit))
+            tmp = Math.floor(Math.random() * 10 * rawSettingDigit)
         } while (rawExamples.has(tmp)); // || rawData.has(tmp));   <--  if uncommented, number of positives will only be numPositives.
         rawExamples.add(tmp);
     }

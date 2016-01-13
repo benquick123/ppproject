@@ -1,3 +1,13 @@
+var icons = [];
+function loadIcons() {
+    var iconNames = ["shapes.png", "pads.png", "numbers.png"];
+    for (var i = 0; i < iconNames.length; i++) {
+        icons[i] = '<div id="icon" class="imageIconDiv">';
+        icons[i] += '<img class="imageIcon" src="images/icons/' + iconNames[i] + '" style="opacity:0;"/>';
+        icons[i] += '</div>';
+    }
+}
+
 var instrRaw =
     "1. Na površini se prikažejo podatki v obliki števil.<br/><br/>"+
     "2. Hitro si jih zapomni in pritisni zelen gumb.<br/><br/>" +
@@ -19,17 +29,19 @@ var instrCurrent;
 function instructionShow(){
     d3.select("img#logo").transition().style("opacity", 0).duration(350);
     var selectedText;
-
-    if (this.id == "buttonPomnenjegolihpodatkov") selectedText = instrRaw;
-    else if (this.id == "buttonDelovnispomin")selectedText = instrNBack;
-    else selectedText = instrSpatial;
+    var selectedIcon;
+    if (this.id == "buttonPomnenjegolihpodatkov") {selectedText = instrRaw; selectedIcon = icons[2];}
+    else if (this.id == "buttonDelovnispomin"){selectedText = instrNBack; selectedIcon = icons[0];}
+    else {selectedText = instrSpatial; selectedIcon = icons[1];}
 
     instrCurrent = '<div class="instruction" id="instruction">';
-    instrCurrent += selectedText;
+    instrCurrent += '<span class="buttonText">' + selectedText + '</span>';
     instrCurrent += '</div>';
     mainWindow.append(instrCurrent);
+    mainWindow.append(selectedIcon);
 
     d3.select("#instruction").transition().duration(500).style("opacity", 1);
+    d3.select(".imageIcon").style("top","7.5%").style("left","50%").transition().duration(500).style("opacity", 1);
     d3.select("#" + this.id).transition().style("background-color", colorButtonSelected).duration(200);
 
 }
@@ -37,6 +49,7 @@ function instructionShow(){
 function instructionReset(){
     d3.select("#" + this.id).transition().style("background-color", colorButton).duration(200);
     $("#instruction").remove();
+    $(".imageIcon").remove();
     d3.select("#instruction").transition().style("opacity", 0).duration(350);
     d3.select("img#logo").transition().style("opacity", 1).duration(350);
 }

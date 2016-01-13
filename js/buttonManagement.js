@@ -8,7 +8,7 @@ function onButtonClick() {
     else if (this.id == "buttonVadi")
         call = loadPractice;
     else if (this.id == "buttonAnaliza")
-        call = loadAnalysis;
+        call = loadHighscore;
     else if (this.id == "buttonNavodila")
         call = loadInstructions;
     else if (this.id == "buttonLestvicarezultatov")

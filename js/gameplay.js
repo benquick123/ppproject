@@ -17,7 +17,7 @@ function loadGameplay() {                                               // Init 
 
     mainWindow.empty();
     gameSeconds = 0;
-    totalGameTime = 60;
+    totalGameTime = 5;
     gameCountdown = 1;
     loadGameInfo();
 
