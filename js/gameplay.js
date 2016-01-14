@@ -21,8 +21,8 @@ function loadGameplay() {                                               // Init 
 
     mainWindow.empty();
     gameSeconds = 0;
-    totalGameTime = 30;
-    gameCountdown = 1;
+    totalGameTime = 120;
+    gameCountdown = 2;
     loadGameInfo();
 
     countdown(gameCountdown);
@@ -130,6 +130,8 @@ function gameDisplayScore(){
         $(".gameInfo").remove();
     })
     finalScore = eachGameScore[0] + eachGameScore[1] + eachGameScore[2];
+
+    document.cookie = "last="+eachGameScore[0]+","+eachGameScore[1]+","+eachGameScore[2];
 
     fileCallback = displayPercentageBest;
     loadFile();

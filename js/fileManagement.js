@@ -6,7 +6,7 @@ function loadFile() {
 }
 
 function handleFile() {
-    var rawAvg = 0, nBackAvg = 0; padAvg = 0;
+    var rawAvg = 0, nBackAvg = 0, padAvg = 0;
     var allTotalScores = [];
 
     var fileFrame = document.getElementById("file");
@@ -33,7 +33,7 @@ function handleFile() {
     if (fileCallback.name == "displayPercentageBest")
         fileCallback(rawAvg, nBackAvg, padAvg, allTotalScores);
     else
-        console.log(lastEntry);
+        fileCallback(rawAvg, nBackAvg, padAvg, lastEntry);
 }
 
 function saveFile(rawResult, nBackResult, padResult, total) {

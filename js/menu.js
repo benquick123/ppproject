@@ -2,6 +2,7 @@ var selectedLevel;
 
 function loadMainMenu() {
     mainWindow.empty();
+    loadIcons();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
 
     var buttonNames = ["Igraj", "Vadi", "Analiza", "Navodila"];
@@ -34,12 +35,26 @@ function removeEventListeners(){
     for (var i = 1; i < children.length; i++)
         $("#" + children[i].id).off("click", onButtonClick).off("mouseout", onButtonMouseOut).off("mouseover", onButtonMouseOver);
 }
-function loadHighscore() {
+function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
     mainWindow.empty();
-    var title = '<div id="titleText" class="titleText" style="opacity:0;">Lestvica rezultatov</div>'
-    mainWindow.append(title);
-    d3.select(".titleText").transition().style("opacity", 1).duration(1000);
 
+    var title = '<div id="titleText" class="titleText" style=" opacity:0;">Analiza</div>';
+    var titleTotal = '<div id="titleTotal" class="titleText" style="top:73%;left:75%;opacity:0; margin-top:0; font-size: 2.5vh;">Skupaj</div>';
+    var titleAvg = '<div id="titleAvg" class="titleText" style="text-align: center;  height: 6%; width: 22%; background-color: '+"#888888"+'; margin-top:0; font-size: 2.5vh;opacity:0; left: 25%; top: 15%"><span class="buttonText">' + "Povprečje"+ '</span></div>';
+    var titleLast = '<div id="titleLast" class="titleText" style="text-align: center; height: 6%; width: 22%;background-color: '+colorBlue+'; margin-top:0; font-size: 2.5vh;opacity:0; left: 75%; top: 15%"><span class="buttonText">' + "Zadnja igra"+ '</span></div>';
+    mainWindow.append(title); mainWindow.append(titleAvg); mainWindow.append(titleLast); mainWindow.append(titleTotal);
+
+    var dataTmp;
+    var center = false;
+    if (document.cookie == "") {dataTmp = ["0","0","0"]; center = true;}
+    else dataTmp = document.cookie.replace("last=","").split(",");
+
+    var dataAvg = [rawAvg, nBackAvg, padAvg];
+    var dataLast = [parseFloat(dataTmp[0]), parseFloat(dataTmp[1]), parseFloat(dataTmp[2])];
+    var dataAll = dataAvg.concat(dataLast);
+    var dataAvgSum = [rawAvg + nBackAvg + padAvg];
+    var dataLastSum = [dataLast[0] + dataLast[1] + dataLast[2]];
+    var dataAllSum = [dataAvgSum, dataLastSum];
     var button = createButton("Nazaj", colorButton, 90);
     mainWindow.append(button);
     d3.select("#buttonNazaj")
@@ -49,6 +64,74 @@ function loadHighscore() {
         .each("end", function() {
             addEventListeners(this.id);
         });
+    var maxHeight = 45;
+    var spacing = 15, start = 20;
+    d3.select("#mainWindow").selectAll("div1").data(dataAvg).enter().append("div")
+        .attr("class", "dataRect")
+        .attr("id", "dataAvg")
+        .style("opacity",0)
+        .style("background-color", "#888888")
+        .style("height",function(d){
+            if (Math.max.apply(Math, dataAll) == 0) return 2;
+            var tmp = d/Math.max.apply(Math, dataAll)*maxHeight;
+            if (tmp == 0) return 2;
+            return (tmp).toString()+ "%";
+        })
+        .style("left", function(d,i) { if (center) return (20+i*spacing).toString()+ "%"; else return (18+i*spacing).toString()+ "%";} )
+        .transition().duration(1000).style("opacity",1);
+
+    d3.select("#mainWindow").selectAll("div2").data(dataLast).enter().append("div")
+        .attr("class", "dataRect")
+        .attr("id", "dataLast")
+        .style("opacity",0)
+        .style("background-color", colorBlue)
+        .style("height",function(d){
+            if (Math.max.apply(Math, dataAll) == 0) return 2;
+            var tmp = d/Math.max.apply(Math, dataAll)*maxHeight;
+            if (tmp == 0) return 2;
+            return (tmp).toString()+ "%";
+        })
+        .style("left", function(d,i) {return (22+i*spacing).toString()+ "%";} )
+        .transition().duration(1000).style("opacity",1);
+
+    d3.select("#mainWindow").selectAll("div3").data(dataAvgSum).enter().append("div")
+        .attr("class", "dataRect")
+        .attr("id", "dataAvgSum")
+        .style("opacity",0)
+        .style("background-color", "#888888")
+        .style("height",function(d){
+            if (Math.max.apply(Math, dataAllSum) == 0) return 2;
+            var tmp = d/Math.max.apply(Math, dataAllSum)*maxHeight;
+            if (tmp == 0) return 2;
+            return (tmp).toString()+ "%";
+        })
+        .style("left", function () { if (center) return "75%"; else return "73%";} )
+        .transition().duration(1000).style("opacity",1);
+
+    d3.select("#mainWindow").selectAll("div4").data(dataLastSum).enter().append("div")
+        .attr("class", "dataRect")
+        .attr("id", "dataLastSum")
+        .style("opacity",0)
+        .style("background-color", colorBlue)
+        .style("height",function(d){
+            if (Math.max.apply(Math, dataAllSum) == 0) return 2;
+            var tmp = d/Math.max.apply(Math, dataAllSum)*maxHeight;
+            if (tmp == 0) return 2;
+            return (tmp).toString()+ "%";
+        })
+        .style("left", "77%")
+        .transition().duration(1000).style("opacity",1);
+
+    mainWindow.append(icons[0]); mainWindow.append(icons[1]); mainWindow.append(icons[2]);
+    d3.select("#iconNumbers").style("top","77%").style("left",(start).toString()+"%");
+    d3.select("#iconShapes").style("top","77%").style("left",(start+spacing).toString()+"%");
+    d3.select("#iconPads").style("top","77%").style("left",(start+2*spacing).toString()+"%");
+
+    d3.selectAll(".imageIcon").style("height","8%").style("width","8%").transition().duration(1000).style("opacity", 1);
+    d3.select("#titleText").transition().style("opacity", 1).duration(1000);
+    d3.select("#titleAvg").transition().style("opacity", 1).duration(1000);
+    d3.select("#titleLast").transition().style("opacity", 1).duration(1000);
+    d3.select("#titleTotal").transition().style("opacity", 1).duration(1000);
 }
 
 function loadPractice() {
@@ -110,7 +193,7 @@ function loadInstructions() {
     mainWindow.empty();
     mainWindow.append('<img id="logo" style="opacity:0;" src="images/brain-image.png" />');
     var buttonNames = ["Pomnenje golih podatkov", "Delovni spomin", "Prostorski spomin"];
-    loadIcons();
+
     var buttonID = [];
     for (var i = 0; i < buttonNames.length; i++) {
         var position = 63+i*8;

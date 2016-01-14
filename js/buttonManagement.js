@@ -7,12 +7,12 @@ function onButtonClick() {
     }
     else if (this.id == "buttonVadi")
         call = loadPractice;
-    else if (this.id == "buttonAnaliza")
-        call = loadHighscore;
+    else if (this.id == "buttonAnaliza") {
+        fileCallback = loadAnalysis;
+        call = loadFile;
+    }
     else if (this.id == "buttonNavodila")
         call = loadInstructions;
-    else if (this.id == "buttonLestvicarezultatov")
-        call = loadHighscore;
     else if (this.id == "buttonNazaj")
         call = loadMainMenu;
     else if (this.id == "buttonPomnenjegolihpodatkov") {
@@ -52,7 +52,7 @@ function onButtonClick() {
             duration = 400;
         else
             duration = 600;
-        d3.select("#" + children[i].id).transition().style("opacity", 0).duration(duration);
+        d3.selectAll("#" + children[i].id).transition().style("opacity", 0).duration(duration);
     }
 
 }

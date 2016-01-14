@@ -56,7 +56,15 @@ img#logo{
     cursor:pointer;
     opacity: 0;
 }
-
+.dataRect {
+    -ms-transform: translate(-50%,0%);
+    -webkit-transform: translate(-50%,0%);
+    transform: translate(-50%,0%);
+    position:absolute;
+    width: 3%;
+    bottom: 30%;
+    opacity: 1;
+}
 .data {
     position:absolute;
     -ms-transform: translate(-50%,-50%);
@@ -104,6 +112,8 @@ div#countdown {
 }
 
 .titleText {
+    border-width:0px;
+    border-radius:0.5vh;
     white-space: nowrap;
     font-size: 5vh;
     margin-top:5%;
