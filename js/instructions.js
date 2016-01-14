@@ -1,7 +1,7 @@
 var icons = [];
 function loadIcons() {
-    var iconNames = ["shapes.png", "pads.png", "numbers.png"];
     var iconID = ["Shapes", "Pads", "Numbers"];
+    var iconNames = ["shapes.svg", "pads.svg", "numbers.svg"];
     for (var i = 0; i < iconNames.length; i++) {
         icons[i] = '<div id="icon" class="imageIconDiv">';
         icons[i] += '<img id="icon'+iconID[i] +'" class="imageIcon" src="images/icons/' + iconNames[i] + '" style="opacity:0;"/>';
