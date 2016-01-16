@@ -83,10 +83,10 @@ function playShapes(topFrame, end) {
         oldShape.transition().style("left", "-25%").duration(400);
         setTimeout(function() {
             $("#bigShape" + prevShape).remove();
-            if (end) {
+            /*if (end) {
                 wrapUp();
                 //console.log("mistake");
-            }
+            }*/
 
         }, 400);
     }
@@ -97,7 +97,7 @@ function playShapes(topFrame, end) {
         }, 2000);
     }
 
-    if (shapeNumber == shapeQueue.length) {
+    if (shapeNumber == shapeQueue.length || end) {
         //console.log("no elements left");
         wrapUp();
     }
@@ -106,7 +106,6 @@ function playShapes(topFrame, end) {
 }
 
 function wrapUp() {
-    //console.log(new Date().getTime());
     var totalHit = shapeTotalHit;
     var totalPercent = totalHit / (shapeQueue.length - shapeIteration[shapeLevel][0]);
     gameScore = [totalHit, totalPercent, (new Date().getTime() - shapeGameTime) / 1000];

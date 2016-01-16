@@ -42,7 +42,7 @@ function waitGameEnd() {                                                // Check
         switch(gameFunctions[gameMemoryMode].name) {
             case "gameRaw" :
                 eachGameScore[0] += tmpScore * 4;
-                //console.log("raw: " + tmpScore * 4);
+                //console.log("raw: " + (tmpScore * 4));
                 break;
             case "gameNBack" :
                 eachGameScore[1] += tmpScore;
@@ -63,7 +63,7 @@ function handleGameplay() {                                              // Set 
 
     if (gameMode == 0) {
         //console.log(gameFunctions[gameMemoryMode].name + ", " + gameMemoryMode);
-        //console.log(gameIterations[gameMemoryMode]);
+        //console.log("level: " + gameIterations[gameMemoryMode]);
         gameFunctions[gameMemoryMode](gameIterations[gameMemoryMode]);
     }
     else if (gameMode == 1) {
