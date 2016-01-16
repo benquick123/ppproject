@@ -14,7 +14,8 @@ var finalScore;
 function loadGameplay() {                                               // Init global vars for gameplay.
     gameSumScore = 0;
     gameSeconds = 0;
-    gameIterations = [0,0,0];
+    if (gameMode == 0)
+        gameIterations = [0,0,0];
     eachGameScore = [0.0,0.0,0.0];
     gameFunctions = [gameNBack, gameSpatial, gameRaw];
     gameFunctions = shuffleArray(gameFunctions);
@@ -41,15 +42,15 @@ function waitGameEnd() {                                                // Check
         switch(gameFunctions[gameMemoryMode].name) {
             case "gameRaw" :
                 eachGameScore[0] += tmpScore * 4;
-                console.log("raw: " + tmpScore * 4);
+                //console.log("raw: " + tmpScore * 4);
                 break;
             case "gameNBack" :
                 eachGameScore[1] += tmpScore;
-                console.log("nback: " + tmpScore);
+                //console.log("nback: " + tmpScore);
                 break;
             case "gameSpatial" :
                 eachGameScore[2] += tmpScore;
-                console.log("spatial: " + tmpScore);
+                //console.log("spatial: " + tmpScore);
                 break;
         }
 
@@ -60,8 +61,11 @@ function waitGameEnd() {                                                // Check
 
 function handleGameplay() {                                              // Set gameStore to null before game begins!
 
-    if (gameMode == 0)
+    if (gameMode == 0) {
+        //console.log(gameFunctions[gameMemoryMode].name + ", " + gameMemoryMode);
+        //console.log(gameIterations[gameMemoryMode]);
         gameFunctions[gameMemoryMode](gameIterations[gameMemoryMode]);
+    }
     else if (gameMode == 1) {
         switch(gameMemoryMode) {
             case 0 :
