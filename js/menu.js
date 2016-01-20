@@ -69,7 +69,7 @@ function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
     d3.select("#mainWindow").selectAll("div1").data(dataAvg).enter().append("div")
         .attr("class", "dataRect")
         .attr("id", "dataAvg")
-        .style("opacity",0)
+        .style("opacity",0).style("height",0).transition().duration(1000).style("opacity",1)
         .style("background-color", "#888888")
         .style("height",function(d){
             if (Math.max.apply(Math, dataAll) == 0) return 2;
@@ -77,13 +77,12 @@ function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
             if (tmp == 0) return 2;
             return (tmp).toString()+ "%";
         })
-        .style("left", function(d,i) { if (center) return (20+i*spacing).toString()+ "%"; else return (18+i*spacing).toString()+ "%";} )
-        .transition().duration(1000).style("opacity",1);
+        .style("left", function(d,i) { if (center) return (20+i*spacing).toString()+ "%"; else return (18+i*spacing).toString()+ "%";} );
 
     d3.select("#mainWindow").selectAll("div2").data(dataLast).enter().append("div")
         .attr("class", "dataRect")
         .attr("id", "dataLast")
-        .style("opacity",0)
+        .style("opacity",0).style("height",0).transition().duration(1000)
         .style("background-color", colorBlue)
         .style("height",function(d){
             if (Math.max.apply(Math, dataAll) == 0) return 2;
@@ -92,12 +91,12 @@ function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
             return (tmp).toString()+ "%";
         })
         .style("left", function(d,i) {return (22+i*spacing).toString()+ "%";} )
-        .transition().duration(1000).style("opacity",1);
+        .style("opacity",1);
 
     d3.select("#mainWindow").selectAll("div3").data(dataAvgSum).enter().append("div")
         .attr("class", "dataRect")
         .attr("id", "dataAvgSum")
-        .style("opacity",0)
+        .style("opacity",0).style("height",0).transition().duration(1000)
         .style("background-color", "#888888")
         .style("height",function(d){
             if (Math.max.apply(Math, dataAllSum) == 0) return 2;
@@ -106,12 +105,12 @@ function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
             return (tmp).toString()+ "%";
         })
         .style("left", function () { if (center) return "75%"; else return "73%";} )
-        .transition().duration(1000).style("opacity",1);
+        .style("opacity",1);
 
     d3.select("#mainWindow").selectAll("div4").data(dataLastSum).enter().append("div")
         .attr("class", "dataRect")
         .attr("id", "dataLastSum")
-        .style("opacity",0)
+        .style("opacity",0).style("height",0).transition().duration(1000)
         .style("background-color", colorBlue)
         .style("height",function(d){
             if (Math.max.apply(Math, dataAllSum) == 0) return 2;
@@ -120,7 +119,7 @@ function loadAnalysis(rawAvg, nBackAvg, padAvg, lastEntry) {
             return (tmp).toString()+ "%";
         })
         .style("left", "77%")
-        .transition().duration(1000).style("opacity",1);
+        .style("opacity",1);
 
     mainWindow.append(icons[0]); mainWindow.append(icons[1]); mainWindow.append(icons[2]);
     d3.select("#iconNumbers").style("top","77%").style("left",(start).toString()+"%");
