@@ -6,4 +6,4 @@ The language of the interface is in Slovene, but the main idea is to train seque
 
 ## Languages used
 
-Application is mostly written in HTML and CSS, with some use of JavaScript.
+Application is mostly written in JavaScript, with some use of HTML and CSS.
